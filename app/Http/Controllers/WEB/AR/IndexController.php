@@ -67,8 +67,8 @@ class IndexController extends Controller
         $evaluations = Evaluation::where('status',1)->get();
         $brands = Brand::where('status',1)->get();
         $categories = Category::where('status',1)->where('type','CAR')->get();
-        $products = Product::where('is_offer',0)->where('is_web',1)->where('status',1)->where('type','CAR')->orderBy('id', 'desc')->take(3)->get();
-        $offers = Product::where('is_web',1)->where('status',1)->where('type','CAR')->where('is_offer',1)->orderBy('id', 'desc')->take(3)->get();
+        $products = Product::where('is_offer',0)->where('is_web',1)->where('status',1)->where('type','CAR')->orderBy('id', 'desc')->take(4)->get();
+        $offers = Product::where('is_web',1)->where('status',1)->where('type','CAR')->where('is_offer',1)->orderBy('id', 'desc')->take(4)->get();
         return view('WEB.AR.index')->with('addresses',$this->addresses)
                                    ->with('settings',$this->settings)
                                    ->with('features',$features)
@@ -690,8 +690,8 @@ public function order_view($id)
         return view('WEB.AR.user3')->with('order',$order)->with('addresses',$this->addresses)
         ->with('settings',$this->settings);*/
     }
-    
-    
+
+
     /**
      * Edit The paid function becuase the online payment has been disabled
      */

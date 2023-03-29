@@ -31,7 +31,7 @@ use Carbon\Carbon;
 
 class IndexController extends Controller
 {
-    
+
 
     private $addresses = null;
     private $settings = null;
@@ -41,7 +41,7 @@ class IndexController extends Controller
         $this->settings = Setting::all();
         $this->brands = Brand::where('status',1)->get();
         $this->models = Model::orderBy('name', 'asc')->get();
-        $this->fuels = Option::where('category_id',22)->get(); 
+        $this->fuels = Option::where('category_id',22)->get();
         $this->categories = Category::where('status',1)->where('type','CAR')->get();
         $this->min_price = Setting::where('key','min_price')->first()->value;
         $this->max_price = Setting::where('key','max_price')->first()->value;
@@ -60,14 +60,14 @@ class IndexController extends Controller
         curl_close($ch);
 
         $arrayData = json_decode($data, true); // json object to array conversion
-        */       
+        */
         $features = Feature::where('status',1)->get();
         $methodologies = Methodology::where('status',1)->get();
         $evaluations = Evaluation::where('status',1)->get();
         $brands = Brand::where('status',1)->get();
         $categories = Category::where('status',1)->where('type','CAR')->get();
-        $products = Product::where('is_offer',0)->where('is_web',1)->where('status',1)->where('type','CAR')->orderBy('id', 'desc')->take(3)->get();
-        $offers = Product::where('is_web',1)->where('status',1)->where('type','CAR')->where('is_offer',1)->orderBy('id', 'desc')->take(3)->get();
+        $products = Product::where('is_offer',0)->where('is_web',1)->where('status',1)->where('type','CAR')->orderBy('id', 'desc')->take(4)->get();
+        $offers = Product::where('is_web',1)->where('status',1)->where('type','CAR')->where('is_offer',1)->orderBy('id', 'desc')->take(4)->get();
         return view('WEB.EN.index')->with('addresses',$this->addresses)
                                    ->with('settings',$this->settings)
                                    ->with('features',$features)
@@ -94,11 +94,11 @@ class IndexController extends Controller
                                        ->with('settings',$this->settings)
                                        ->with('brands',$this->brands);
     }
-    
-    
+
+
     public function cars_search_advanced(Request $request)
     {
-        
+
         $current_price = explode(";", request()->query('current_price',''));
         $category_id = request()->query('category_id',''); //input()
         $brand_id = request()->query('brand_id',''); //input()
@@ -118,25 +118,25 @@ class IndexController extends Controller
           })
           ->when($model_id,function($query,$model_id){
               return $query->where('model_id','=',$model_id);
-          }) 
+          })
           ->when($current_max_price,function($query,$current_max_price){
               return $query->where('price','<=',$current_max_price);
-          }) 
+          })
           ->when($current_min_price,function($query,$current_min_price){
               return $query->where('price','>=',$current_min_price);
-          }) 
+          })
           ->when($name,function($query,$name){
               return $query->where('name','like', '%'.$name.'%');
-          }) 
+          })
           ->when($fuel_id,function($query,$fuel_id){
-             
+
             return  $query->whereHas('options', function ($query) use ($fuel_id){
                  $query->where('option_id','=',$fuel_id);
              });
              });
       })
       ->orderBy('id', 'desc')->get();
-         
+
       return view('WEB.EN.cars')->with('products',$products)
                                 ->with('addresses',$this->addresses)
                                 ->with('settings',$this->settings)
@@ -175,7 +175,7 @@ class IndexController extends Controller
           });
       })
       ->orderBy('id', 'desc')->get();
-         
+
       return view('WEB.EN.cars')->with('products',$products)
                                 ->with('addresses',$this->addresses)
                                 ->with('settings',$this->settings)
@@ -193,10 +193,10 @@ class IndexController extends Controller
                                 ->with('current_min_price',300000)
                                 ->with('current_max_price',600000);
     }
-    
+
     public function offers_search_advanced(Request $request)
     {
-        
+
         $current_price = explode(";", request()->query('current_price',''));
         $category_id = request()->query('category_id',''); //input()
         $brand_id = request()->query('brand_id',''); //input()
@@ -216,25 +216,25 @@ class IndexController extends Controller
           })
           ->when($model_id,function($query,$model_id){
               return $query->where('model_id','=',$model_id);
-          }) 
+          })
           ->when($current_max_price,function($query,$current_max_price){
               return $query->where('price','<=',$current_max_price);
-          }) 
+          })
           ->when($current_min_price,function($query,$current_min_price){
               return $query->where('price','>=',$current_min_price);
-          }) 
+          })
           ->when($name,function($query,$name){
               return $query->where('name','like', '%'.$name.'%');
-          }) 
+          })
           ->when($fuel_id,function($query,$fuel_id){
-             
+
             return  $query->whereHas('options', function ($query) use ($fuel_id){
                  $query->where('option_id','=',$fuel_id);
              });
              });
       })
       ->orderBy('id', 'desc')->get();
-         
+
       return view('WEB.EN.offers')->with('products',$products)
                                 ->with('addresses',$this->addresses)
                                 ->with('settings',$this->settings)
@@ -273,7 +273,7 @@ class IndexController extends Controller
           });
       })
       ->orderBy('id', 'desc')->get();
-         
+
       return view('WEB.EN.offers')->with('products',$products)
                                 ->with('addresses',$this->addresses)
                                 ->with('settings',$this->settings)
@@ -291,17 +291,17 @@ class IndexController extends Controller
                                 ->with('current_min_price',300000)
                                 ->with('current_max_price',600000);
     }
-    
+
     public function contact()
     {
         return view('WEB.EN.contact')->with('addresses',$this->addresses)
                                      ->with('settings',$this->settings);
     }
 
-    
+
     public function add_contact(Request $request)
     {
-        
+
         $this->validate($request,[
             'name'=>'required|string|max:255',
             'email'=>'required|email',
@@ -315,14 +315,14 @@ class IndexController extends Controller
             'phonenumber'=>$request->phonenumber,
             'message'=>$request->message,
         ]);
-        
+
         session()->flash('success', 'شكرا لتواصلك معنا، سيتم التواصل معك قريبا');
         return redirect()->back();
     }
-    
+
     public function add_export(Request $request)
     {
-        
+
         $this->validate($request,[
             'export_product_id'=>'nullable|numeric',
             'name'=>'required|string|max:255',
@@ -337,12 +337,12 @@ class IndexController extends Controller
             'phonenumber'=>$request->phonenumber,
             'message'=>$request->message,
         ]);
-        
+
         session()->flash('success', 'شكرا لتواصلك معنا، سيتم التواصل معك قريبا');
         return redirect()->back();
     }
-    
-    
+
+
     public function offers()
     {
         $products = Product::where('is_web',1)->where('is_offer',1)->where('status',1)->where('type','CAR')->orderBy('id', 'desc')->get();
@@ -383,16 +383,16 @@ class IndexController extends Controller
                                   ->with('current_min_price',300000)
                                   ->with('current_max_price',600000);
     }
-    
+
     public function export()
     {
         $products = ExportProduct::where('is_web',1)->where('status',1)->orderBy('id', 'desc')->get();
-        
+
         return view('WEB.EN.export')->with('addresses',$this->addresses)
                                     ->with('settings',$this->settings)
                                     ->with('products',$products);
     }
-    
+
     public function questions()
     {
         $questions= Faq::where('status',1)->where('lang','EN')->get();
@@ -400,13 +400,13 @@ class IndexController extends Controller
                                        ->with('settings',$this->settings)
                                        ->with('questions',$questions);
     }
-    
+
     public function kmaliat()
     {
         return view('WEB.EN.kmaliat')->with('addresses',$this->addresses)
                                      ->with('settings',$this->settings);
     }
-    
+
     public function learn()
     {
         $learns= Guide::where('status',1)->where('lang','EN')->get();
@@ -414,7 +414,7 @@ class IndexController extends Controller
                                    ->with('settings',$this->settings)
                                    ->with('learns',$learns);
     }
-    
+
     public function privacy()
     {
         $privacy=Page::find(2);
@@ -430,12 +430,12 @@ class IndexController extends Controller
                                        ->with('settings',$this->settings)
                                        ->with('condition',$condition);
     }
-    
+
     public function car($id)
     {
         $product = Product::where('is_web',1)->where('status',1)
         ->where('type','CAR')->where('id',$id)->first();
-        
+
         if(is_null($product)){
             session()->flash('error', 'Car not found');
             return redirect()->back();
@@ -445,11 +445,11 @@ class IndexController extends Controller
                                         ->with('settings',$this->settings)
                                         ->with('product',$product);
     }
-    
+
     public function export_car($id)
     {
         $product = ExportProduct::where('is_web',1)->where('status',1)->where('id',$id)->first();
-        
+
         if(is_null($product)){
             session()->flash('error', 'Car not found');
             return redirect()->back();
@@ -457,7 +457,7 @@ class IndexController extends Controller
         return view('WEB.EN.single_export_car')->with('addresses',$this->addresses)->with('settings',$this->settings)
                                         ->with('product',$product);
     }
-    
+
     public function evaluations()
     {
         $countries =Country::all();
@@ -470,7 +470,7 @@ class IndexController extends Controller
 
     public function  add_evaluation(Request $request)
     {
-        
+
         $this->validate($request,[
             'name'=>'required|string|max:255',
             'email'=>'required|email',
@@ -491,7 +491,7 @@ class IndexController extends Controller
             'message'=>$request->message,
             'file'=>$image_path,
         ]);
-        
+
         session()->flash('success', 'شكرا لك');
         return redirect()->back();
     }
@@ -513,7 +513,7 @@ class IndexController extends Controller
             return NULL;
         }
     }
-    
+
        public function tracking(Request $request)
     {
         $this->validate($request,[
@@ -522,17 +522,17 @@ class IndexController extends Controller
         ]);
         if($request->has('tracking_number') && $request->has('email') && filter_var($request->get('email'), FILTER_VALIDATE_EMAIL)){
 			$order = Order::where('email', $request->get('email'))->where('tracking_number', $request->get('tracking_number'))->first();
-			
+
 			if($order){
                     return redirect()->route('en.status',['id',$order->status]);
-                
+
 			}
 		}
-            
+
             session()->flash('error', 'Invalid Data ');
             return redirect()->back();
-        
-		
+
+
 
     }
     public function status($id)
@@ -542,13 +542,13 @@ class IndexController extends Controller
               session()->flash('error', 'page not found');
             return redirect()->back();
         }
-		
+
                     return view('WEB.EN.status')->with('addresses',$this->addresses)
                     ->with('settings',$this->settings)
                     ->with('status',$status);
-               
-            
-		
+
+
+
 
     }
 
@@ -556,9 +556,9 @@ class IndexController extends Controller
     {
                     return view('WEB.EN.tracking')->with('addresses',$this->addresses)
                     ->with('settings',$this->settings);
-		
+
     }
-   
+
     public function order_view($id)
     {
         $product =Product::find($id);
@@ -568,11 +568,11 @@ class IndexController extends Controller
         }
                     return view('WEB.EN.user1')->with('product',$product)->with('addresses',$this->addresses)
                     ->with('settings',$this->settings);
-        
+
     }
-    
+
         public function new_order(Request $request){
-    
+
             $product = Product::where('id', intval($request['product_id']));
             /*
             if(!$product->count() || ($product->count() && ($product->first()['quantity']) < 1)) {
@@ -589,11 +589,11 @@ class IndexController extends Controller
                 $address = $request->get('address');
                 $long = '';
                 $lat = '';
-    
+
                 $product = Product::find(intval($product_id));
-            
+
                 if($product){
-    
+
                     $order = Order::create([
                         'name' => $name,
                         'last_name' => $last_name,
@@ -613,18 +613,18 @@ class IndexController extends Controller
                     $order->update([
                         'tracking_number' => $tracking_number
                     ]);
-    
-    
+
+
                   //  Product::where('id',intval($product_id))->update(['quantity' => (intval($product->quantity) - 1 ) ]);
                 }else{
                     session()->flash('error', 'Enter Valid Product');
                   return redirect()->back();
                 }
-                
+
                 return view('WEB.EN.user2')->with('order',$order)->with('addresses',$this->addresses)
                 ->with('settings',$this->settings);
             } else{
-                
+
                 session()->flash('error', 'Enter Valid data <br/> أدخل البيانات المطلوبة بشكل صحيح');
               return redirect()->back();
             }
@@ -635,10 +635,10 @@ class IndexController extends Controller
           #  return view('WEB.EN.user3')->with('order_id',$request['order_id'])->with('addresses',$this->addresses)
            # ->with('settings',$this->settings);
         }
-    
+
         public function paid(Request $request){
             return view('WEB.EN.user3')->with('order_id',$request['order_id'])->with('addresses',$this->addresses)
             ->with('settings',$this->settings);
         }
-    
+
 }

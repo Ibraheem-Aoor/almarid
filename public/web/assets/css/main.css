@@ -1994,6 +1994,7 @@ footer {
     background-color: #fff;
     border: 1px solid #E9E9E9;
     padding: 5px 10px;
+    height: 350px !important;
 }
 
 .main-img {
@@ -2514,6 +2515,13 @@ display: block;
         background-image: url(../images/bg-2-updated-v2.jpg);
     }
 
+
+.single-mainCar {
+    background-color: #fff;
+    border: 1px solid #E9E9E9;
+    padding: 5px 10px;
+    height: 450px !important;
+}
 
 }
 

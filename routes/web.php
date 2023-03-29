@@ -238,7 +238,7 @@ Route::group(['middleware' => 'web','prefix' => config('app.prefix','admin')], f
 
 
 	///////////////////////////////////////////////////////////////
-	
+
 	Route::get('addresses', 'Backend\AddressesController@index');
 	Route::get('addresses/data', 'Backend\AddressesController@data');
 	Route::post('addresses/add', 'Backend\AddressesController@add');
@@ -249,7 +249,7 @@ Route::group(['middleware' => 'web','prefix' => config('app.prefix','admin')], f
 
 
 	///////////////////////////////////////////////////////////////
-	
+
 	Route::get('contacts', 'Backend\ContactsController@index');
 	Route::get('contacts/data', 'Backend\ContactsController@data');
 	Route::post('contacts/show', 'Backend\ContactsController@show_edit_form');
@@ -258,7 +258,7 @@ Route::group(['middleware' => 'web','prefix' => config('app.prefix','admin')], f
 
 	//////////////////////////////////////////////////////////////
 
-	
+
 	Route::get('methodologies', 'Backend\MethodologiesController@index');
 	Route::get('methodologies/data', 'Backend\MethodologiesController@data');
 	Route::post('methodologies/add', 'Backend\MethodologiesController@add');
@@ -268,7 +268,7 @@ Route::group(['middleware' => 'web','prefix' => config('app.prefix','admin')], f
 	Route::post('methodologies/change_status', 'Backend\MethodologiesController@change_status');
 
 	//////////////////////////////////////////////////////////////////
-	
+
 	Route::get('features', 'Backend\FeaturesController@index');
 	Route::get('features/data', 'Backend\FeaturesController@data');
 	Route::post('features/add', 'Backend\FeaturesController@add');
@@ -288,7 +288,7 @@ Route::group(['middleware' => 'web','prefix' => config('app.prefix','admin')], f
 	Route::post('countries/change_status', 'Backend\CountriesController@change_status');
 
 	///////////////////////////////////////////////////////////////////////////////////
-	
+
 	Route::get('evaluations', 'Backend\EvaluationsController@index');
 	Route::get('evaluations/data', 'Backend\EvaluationsController@data');
 	Route::post('evaluations/add', 'Backend\EvaluationsController@add');
@@ -300,7 +300,7 @@ Route::group(['middleware' => 'web','prefix' => config('app.prefix','admin')], f
 
 
 	////////////////////////////////////////////////
-	
+
 	Route::get('webcars', 'Backend\ProductsImagesController@index');
 	Route::get('webcars/data', 'Backend\ProductsImagesController@data');
 	Route::post('webcars/add', 'Backend\ProductsImagesController@add');
@@ -310,7 +310,7 @@ Route::group(['middleware' => 'web','prefix' => config('app.prefix','admin')], f
 	Route::post('webcars/delete', 'Backend\ProductsImagesController@delete');
 
 
-	
+
 	Route::get('export-cars', 'Backend\ExportProductsController@index');
 	Route::get('export-cars/data', 'Backend\ExportProductsController@data');
 	Route::post('export-cars/add', 'Backend\ExportProductsController@add');
@@ -320,7 +320,7 @@ Route::group(['middleware' => 'web','prefix' => config('app.prefix','admin')], f
 	Route::post('export-cars/delete', 'Backend\ExportProductsController@delete');
 	Route::post('export-cars/change_status', 'Backend\ExportProductsController@change_status');
 	////////////////////////////////////////////////
-	
+
 	Route::get('webexportcars', 'Backend\ExportProductsImagesController@index');
 	Route::get('webexportcars/data', 'Backend\ExportProductsImagesController@data');
 	Route::post('webexportcars/add', 'Backend\ExportProductsImagesController@add');
@@ -328,13 +328,13 @@ Route::group(['middleware' => 'web','prefix' => config('app.prefix','admin')], f
 	Route::post('webexportcars/show', 'Backend\ExportProductsImagesController@show_edit_form');
 	Route::post('webexportcars/update', 'Backend\ExportProductsImagesController@update');
 	Route::post('webexportcars/delete', 'Backend\ExportProductsImagesController@delete');
-	
+
 	Route::get('exports', 'Backend\ExportsController@index');
 	Route::get('exports/data', 'Backend\ExportsController@data');
 	Route::post('exports/show', 'Backend\ExportsController@show_edit_form');
 	Route::post('exports/change_status', 'Backend\ExportsController@change_status');
-	
-	
+
+
 
 	Route::get('services', 'Backend\ExportServicesController@index');
 	Route::get('services/data', 'Backend\ExportServicesController@data');
