@@ -39,15 +39,15 @@
 
     <link rel="stylesheet" href="{{ asset('web/assets/css/bootstrap-select.css')}}"/>
     <link rel="stylesheet" href="{{ asset('web/assets/css/ion.rangeSlider.min.css')}}"/>
-    <link rel="stylesheet" href="{{ asset('web/assets/css/main.css')}}"/>
+    <link rel="stylesheet" href="{{ asset('web/assets/css/main.css?v=0.001')}}"/>
     <link rel="stylesheet" href="{{ asset('web/assets/css/ltr-style.css')}}"/>
     <link rel="stylesheet" href="{{asset('css/toastr.min.css')}}">
   </head>
   <body><!-- begin:: Page -->
     <div class="main-wrapper">
       <div class="loader-page"><span></span><span></span></div>
-      <div class="mobile-menu-overlay"></div><!-- begin:: top-header --> 
- 
+      <div class="mobile-menu-overlay"></div><!-- begin:: top-header -->
+
       @yield('section')
 
 <header class="main-header transition  @yield('white')">
@@ -61,7 +61,7 @@
         <div class="menu-container w-100">
           <ul class="main-menu list-main-menu d-lg-flex justify-content-start ml-xl-5" >
             <li class="menu_item"><a class="menu_link active" href="/en/about-us"   data-scroll="about-us">About Company</a></li>
-             
+
             <li class="menu_item"><a class="menu_link" href="/en/cars"   data-scroll="goal">Cars</a></li>
             <li class="menu_item"><a class="menu_link" href="/en/kamaliat"    data-scroll="serv">Accessories</a></li>
             <li class="menu_item"><a class="menu_link" href="/en/export"  data-scroll="why">Export </a></li>
@@ -75,11 +75,11 @@
       <div class="menu-container">
         <ul class="main-menu d-flex align-items-center">
           <li class="menu_item downlaod-app"><a class="btn btn-primary btn-sm  wow fadeInLeft scrollTo rounded px-3"  data-wow-delay="0.3s"   target="_blank" href="{{$settings->where('key','google_play')->first()->value}}"  data-scroll="contact"> <i class="fab fa-google-play pr-2"></i>  Download the app</a></li>
-          
+
                <li class="menu_item"><a class="btn btn-primary d-md-block d-none mx-2 btn-sm  wow fadeInLeft scrollTo rounded px-3 bg-tomato"    href="/en/tracking"> <i class="fab fa-searchengin pr-2"></i></i>Track your Order</a></li>
-               
-               
-               
+
+
+
           <li class="menu_item"><a class="btn btn-primary px-3 ml-2   btn-sm rounded   wow fadeInLeft scrollTo" data-wow-delay="0.3s" href="@yield('url')"  data-scroll="contact"> <img src="{{ asset('web/assets/images/ksa.png') }}" alt=""> </a></li>
 
         </ul>
@@ -87,9 +87,9 @@
       <div class="header-mobile__toolbar ml-3 d-lg-none fa-lg"><i class="fa fa-bars"></i></div>
     </div>
   </div>
-</header><!-- end:: Header -->  
+</header><!-- end:: Header -->
 
- 
+
       @yield('content')
 
 
@@ -98,7 +98,7 @@
       <footer >
    <div class="container">
    <div class="row">
- 
+
  <div class="col-lg-3">
    <div class="single-footer">
      <h3  class="mb-3">Quick Links</h3>
@@ -151,19 +151,19 @@
         </li>
       </ul>
       </div>
-   
-  
-   </div>  
+
+
+   </div>
  </footer>
 
- 
+
 
  <div class="page-tolpar"> <a href="https://wa.me/{{$settings->where('key','whatsapp')->first()->value}}">
   <svg id="whatsapp_3_" data-name="whatsapp(3)" xmlns="http://www.w3.org/2000/svg" width="39.99" height="39.99" viewBox="0 0 39.99 39.99">
     <path id="Path_29" data-name="Path 29" d="M20,0h-.01A19.982,19.982,0,0,0,3.807,31.714L1.315,39.142,9,36.686A19.991,19.991,0,1,0,20,0Z" fill="#4caf50"></path>
     <path id="Path_30" data-name="Path 30" d="M130.521,136.178c-.482,1.362-2.4,2.492-3.924,2.822-1.045.222-2.409.4-7-1.5-5.876-2.434-9.66-8.405-9.955-8.793s-2.374-3.162-2.374-6.031a6.383,6.383,0,0,1,2.044-4.866,2.905,2.905,0,0,1,2.044-.717c.247,0,.47.012.67.022.587.025.882.06,1.27.987.482,1.162,1.657,4.031,1.8,4.326a1.19,1.19,0,0,1,.085,1.082,3.455,3.455,0,0,1-.647.917c-.295.34-.575.6-.87.965-.27.317-.575.657-.235,1.245a17.747,17.747,0,0,0,3.244,4.031,14.7,14.7,0,0,0,4.689,2.892,1.264,1.264,0,0,0,1.41-.222,24.2,24.2,0,0,0,1.562-2.069,1.116,1.116,0,0,1,1.435-.435c.54.187,3.4,1.6,3.984,1.892s.975.435,1.117.682A4.98,4.98,0,0,1,130.521,136.178Z" transform="translate(-98.886 -107.943)" fill="#fafafa"></path>
   </svg></a></div>
- 
+
     </div><!-- end:: Page -->
 
 
@@ -182,8 +182,8 @@
     <script src="{{ asset('web/assets/js/ticker.js')}}"> </script>
     <script src="{{ asset('web/assets/js/function.js')}}"></script>
      <script src="{{asset('js/toastr.min.js')}}"></script>
-    
-    
+
+
     <script>
      @if(Session::has('success'))
 
@@ -256,6 +256,6 @@ function printDivCondition(divID) {
 </script>
      @yield('script')
 
-  
+
   </body>
 </html>
