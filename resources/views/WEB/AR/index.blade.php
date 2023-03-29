@@ -28,27 +28,27 @@
 
    <li><a href="{{$settings->where('key','youtube')->first()->value}}" target="_blank">
           <i class="fab fa-youtube"></i>
-      </a></li> 
+      </a></li>
 
   <li><a href="{{$settings->where('key','tiktok')->first()->value}}" target="_blank">
           <i class="fab fa-tiktok"></i>
-      </a></li> 
+      </a></li>
 
 
   <li><a href="{{$settings->where('key','facebook')->first()->value}}" target="_blank">
           <i class="fab fa-facebook-f"></i>
-      </a></li> 
-    
-      
-      
+      </a></li>
+
+
+
       <li><a href="#"   data-toggle="modal" data-target="#exampleModal">
           <i class="fas fa-search"></i>
-      </a></li> 
-         
-  
-  
+      </a></li>
+
+
+
   </ul>
-  
+
   </div>
 <section class="main-section">
   <div class="main-section_content">
@@ -68,7 +68,7 @@
 </div></div>
   </div>
  </section>
- 
+
 <!-- begin:: section -->
 <section class="section   how-work">
   <div class="container">
@@ -80,10 +80,10 @@
         </div>
       </div>
     </div>
-    <div class="row"> 
-      <div class="col-12"> 
+    <div class="row">
+      <div class="col-12">
         <div class="list_stage">
-          
+
           <?php $i=1;?>
       @foreach($methodologies as $methodology)
           <div class="widget__item-4 wow fadeInDown" data-wow-delay="0.2s">
@@ -95,7 +95,7 @@
               <p class="widget__item-desc font-normal">{{$methodology->description}}</p>
             </div>
           </div>
-          
+
           <?php $i++;?>
       @endforeach
         </div>
@@ -109,7 +109,7 @@
     <div class="row mb-5">
       <div class="col-lg-7 mx-auto">
         <div class="text-center">
-       
+
           <h2 class="title-section font-bold text-white wow fadeInDown" data-wow-delay="0.3s"> أنواع السيارت</h2>
         </div>
       </div>
@@ -117,36 +117,36 @@
     <!--<div class="cars-owl owl-carousel owl_1 wow fadeInDown" data-wow-delay="0.2s">-->
 
     <!--@foreach($categories as $category)-->
-       
+
     <!--  <div class="single-car text-center    bg-white mx-2">-->
-            
+
     <!--    <div class="car-img  ">-->
     <!--         <a href="/cars/search?category_id={{$category->id}}">-->
     <!--      <img src="{{asset('/uploads/categories/'.$category->image)}}" alt="">-->
     <!--       <h3>{{$category->name}}</h3>-->
     <!--      </a>-->
     <!--    </div>-->
-       
+
     <!--  </div>-->
-   
+
     <!--  @endforeach-->
     <!--</div>-->
-    
+
         <div class="row wow fadeInDown" data-wow-delay="0.2s">
 
     @foreach($categories as $category)
        <div class="col-lg-3 mb-lg-0 mb-4">
       <div class="single-car text-center    bg-white mx-2">
-            
+
         <div class="car-img  ">
              <a href="/cars/search?category_id={{$category->id}}">
           <img src="{{asset('/uploads/categories/'.$category->image)}}" alt="">
            <h3>{{$category->name}}</h3>
           </a>
         </div></div>
-       
+
       </div>
-   
+
       @endforeach
     </div>
   </div>
@@ -173,17 +173,17 @@
           </div>
           <div class="options d-flex align-items-center justify-content-start">
           <p class="mr-2">{{$product->model->name}} | </p > <p  class="mr-2">{{$product->category->name}} | </p>  <p  class="mr-2">@if($product->is_new == 1) جديد  @endif</p>
-          
+
           </div>
           <hr>
           <div class="maincar-price d-flex align-items-center justify-content-between">
           <h5 class="color bold">{{$product->offer_price}}درهم</h5>
            <del class="text-secondary">{{$product->price}} درهم</del>
             </div>
-          
+
           <div class="full text-right">
           <h5 class="orange">@if($product->quantity >0) متبقي {{$product->quantity}} من السيارات @else  نفذت الكمية@endif</h5>
-                      
+
                         </div>
         </div>
       </a>
@@ -220,10 +220,10 @@
           <div class="maincar-price d-flex align-items-center justify-content-between">
             <h5 class="color">{{$product->price}} درهم </h5>
               </div>
-          
+
           <div class="full text-left">
           <h5 class="orange">@if($product->quantity >0) متبقي {{$product->quantity}} من السيارات @else  نفذت الكمية@endif</h5>
-                      
+
                         </div>
         </div>
       </a>
@@ -237,7 +237,7 @@
     <div class="widget__item-content text-center mx-auto">
       <h3 class="widget__item-title font-bold mb-2">مميزاتنـا</h3>
       <p class="widget__item-desc">{{$settings->where('key','features_ar')->first()->value}} </p>
-    </div> 
+    </div>
     <div class="row">
       @foreach($features as $feature)
       <div class="col-lg-3 col-md-6">
@@ -253,31 +253,31 @@
           </div>
         </div>
       </div>
-      
+
       @endforeach
-      
+
     </div>
   </div>
 </section>
 
- 
 
 
 
- 
+
+
 
 <section class="partners" id="partners">
   <div class="container   mt-2">
- 
+
     <div class="js-ticker" id="gallery">
-      
+
   @foreach($brands as $brand)
       <div class="widget__item-2 wow fadeInDown slide js-ticker-item" data-wow-delay="0.2s">
         <div class="widget__item-image">
           <a href="/cars/search?brand_id={{$brand->id}}"><img src="{{asset('/uploads/brands/'.$brand->image)}}" alt=""/></a></div>
       </div>
       @endforeach
- 
+
     </div>
   </div>
 </section>
@@ -287,7 +287,7 @@
     <div class="widget__item-content text-center mx-auto">
       <h3 class="widget__item-title font-bold mb-2">اراء عملاؤنـا</h3>
       <p class="widget__item-desc">{{$settings->where('key','rating_ar')->first()->value}} </p>
-    </div> 
+    </div>
     <div class="testi-cont owl-carousel owl_2 mt-5">
     @foreach($evaluations as $evaluation)
       <div class="single-testi  ">
@@ -303,10 +303,10 @@
         <p>{{$evaluation->message}}</p>
                 @if(!is_null($evaluation->file))
                 <div class="video ">
-                  
+
                   <a  href="{{asset('/uploads/evaluations/'.$evaluation->file)}}" data-rel="lightcase:myCollection" class="d-flex align-items-center justify-content-start play-video">
                   <img src="{{asset('/web/assets/images/video.png')}}" class="mr-3" alt="">
-                  شاهد 
+                  شاهد
                  </a>
                 </div>
                 @endif
@@ -319,34 +319,34 @@
 <section class="contact" id="contact">
   <div class="container">
     <div class="row">
-  
+
       <div class="col-lg-12">
         <h2 class="w-100 text-center">تواصل معنـا</h2>
         <form action="{{route('contact')}}" class="mt-4    wow fadeInDown   " data-wow-delay="0.2s"  method="POST">{{csrf_field()}}
           <div class="row">
             <div class="col-lg-4">
-          <div class="form-group mb-4"> 
-           
+          <div class="form-group mb-4">
+
           <input class="form-control" type="text" required name="name" placeholder="الاسم"/>
           </div></div>
           <div class="col-lg-4">
-            <div class="form-group mb-4"> 
-              
+            <div class="form-group mb-4">
+
             <input class="form-control" type="text" required name="phonenumber" placeholder="رقم الجوال"/>
             </div></div>
-          <div class="col-lg-4"> 
-          <div class="form-group mb-4"> 
-           
+          <div class="col-lg-4">
+          <div class="form-group mb-4">
+
           <input class="form-control" type="text"  required name="email" placeholder="بريدك الالكتروني"/>
           </div> </div>
-          <div class="col-lg-12"> 
-          <div class="form-group mb-4" > 
-            
+          <div class="col-lg-12">
+          <div class="form-group mb-4" >
+
           <textarea class="form-control" rows="4" required  name="message"  placeholder="رسالتك"> </textarea>
           </div> </div>
           <div class="text-center w-100">
           <button  type="submit" class="btn btn-primary btn-sm hover-transform px-5 box-shadow rounded mx-auto   mt-3   wow fadeInDown" data-wow-delay="0.2s" href="">ارسال </button>
-          
+
           </div></div>
         </form>
       </div>
@@ -367,7 +367,7 @@
 </div>
 
 
- 
+
   <!-- Modal -->
   <div class="modal fade modal-filter" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -383,7 +383,7 @@
         <div class="modal-body pad-modal">
 
 <div class="row">
-    <div class="col-12"><div class="form-group"> 
+    <div class="col-12"><div class="form-group">
         <label> الإسم</label>
         <input class="form-control"  name="name" type="text" value="" placeholder="ابحث عن سيارة"/>
       </div></div>
@@ -417,8 +417,8 @@
         <div class="single-filter">
             <select name="model_id"
                                 class="selectpicker" title="الموديل">
-                                
-                                
+
+
                                 <option value="" >--</option>
       @foreach($models as $model)
                                 <option value="{{$model->id}}" >{{$model->name}}</option>
@@ -432,7 +432,7 @@
             class="selectpicker" name="brand_id"
                                 class="selectpicker" title="الشركة">
                                 <option value="" >--</option>
-                                
+
       @foreach($brands as $brand)
                                 <option value="{{$brand->id}}" >{{$brand->name}}</option>
                                 @endforeach
@@ -440,10 +440,10 @@
         </div>
       </div>
 </div>
-                
-                
-            
-            
+
+
+
+
         </div>
         <div class="modal-footer ">
            <button type="submit" class="btn btn-primary w-100 rounded py-2">بحث</button>
@@ -452,12 +452,12 @@
     </div>
   </div>
 
-  
+
 @endsection
 
 @section('script')
 <script>
- 
+
 $('#exampleModal').on('shown.bs.modal', function() {
     $('.group_RangeSlider').fadeIn()
     $(".RangeSlider").ionRangeSlider({
@@ -468,7 +468,7 @@ $('#exampleModal').on('shown.bs.modal', function() {
         type: "double",
         prefix: "درهم"
     });
-    
+
 		$('#current_min_price').val(from);
 		$('#current_max_price').val(to);
 
@@ -476,4 +476,3 @@ $('#exampleModal').on('shown.bs.modal', function() {
 </script>
 @endsection
 
-   
