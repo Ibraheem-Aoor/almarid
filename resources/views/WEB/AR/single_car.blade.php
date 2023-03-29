@@ -25,12 +25,12 @@ bg-white
                 <i class="fas fa-long-arrow-left mx-3"></i>
 
                 <a href="/cars"  >
-                
+
                     قائمة السيارات</a>
                     <i class="fas fa-long-arrow-left mx-3"></i>
 
                     <a href="/car/{{$product->id}}" class="active">
-                    
+
                     {{$product->name}}</a>
             </div></div>
 
@@ -38,30 +38,30 @@ bg-white
             <div class="container">
                 <div class="row">
                     <div class="col-lg-8">
-                                 
+
                       <div class="tab-content">
-                        
+
                       <?php $p=0;?>
                              @foreach($product->web_colors as $c)
                         <div id="menu{{$p}}" class="tab-pane  @if($p==0) show in active  @else fade @endif">
                           <div class="single-carSlider owl-carousel owl_3 px-4 ">
                             @foreach($c->images as $image)
                             <a data-fancybox="gallery" href="{{ asset('/uploads/products/'.$image->image) }}" >
-                            <img src="{{ asset('/uploads/products/'.$image->image) }}" alt="">
+                            <img src="{{ asset('/uploads/products/'.$image->image) }}" loading="lazy" alt="">
                            </a>
                             @endforeach
-                           
+
                         </div>
                         </div>
                         <?php $p++;?>
                         @endforeach
-                        
+
                       </div>
-        
+
                         <div class="caro-details bg-white rounded-max px-4 py-4 mt-4 ">
                           <div class="car-name_price d-flex align-items-center justify-content-between flex-wrap">
                             <h3 class="mb-2 mb-lg-0"> {{$product->name}} | {{$product->model->name}}</h3>
-                            @if($product->is_offer ==1) 
+                            @if($product->is_offer ==1)
                             <h3 class="mb-2 mb-lg-0 text-primary">{{$product->offer_price}} درهم  <br> <del class="text-secondary">{{$product->price}} درهم</del></h3>
                             @else
                            <h3 class="mb-2 mb-lg-0">{{$product->price}} درهم  </h3>
@@ -70,7 +70,7 @@ bg-white
                            <hr class="line">
                            <div class="car_colors">
                              <h5>الالوان</h5>
-                  
+
 
                              <ul class="nav nav-tabs color-plate d-flex align-items-center justify-content-start flex-wrap">
                              <?php $p=0;?>
@@ -79,17 +79,17 @@ bg-white
                              <li class=""><a  class="active" data-toggle="tab" href="#menu{{$p}}"> <span class="active" style="background-color:{{$c->color->code}}"></span></a></li>
                              @else
                              <li><a data-toggle="tab" href="#menu{{$p}}"><span style="background-color:{{$c->color->code}}"></span></a></li>
-                              
+
                              @endif
                              <?php $p++;?>
-                             @endforeach 
+                             @endforeach
                             </ul>
                            </div>
-                            
+
                         </div>
 
-                     
-           
+
+
 
 
 
@@ -112,7 +112,7 @@ bg-white
                               </div>
                             </div>
                             @endforeach
-                            
+
                           </div>
                         </div>
                     </div>
@@ -122,13 +122,13 @@ bg-white
                           <h4>التفاصيل</h4>
                           <ul class="list-unstyled mt-3">
                               <li>
-                            <hr class="line"> 
+                            <hr class="line">
                             {!! $product->description!!}
                             </li>
                           </ul>
                           <div class="text-right">
                             <a class="btn btn-primary btn-sm hover-transform rounded w-100   mt-2   wow fadeInDown" data-wow-delay="0.2s" href="/order/{{$product->id}}">احجزها الآن </a>
-                            
+
                             </div>
                         </div>
 
@@ -136,8 +136,7 @@ bg-white
                     </div>
                 </div>
             </div>
-         
+
 @endsection
 
- 
-      
+

@@ -506,17 +506,6 @@
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group form-md-line-input has-success">
-                                                                        <label class="col-md-2 control-label" for="quantity">الكمية</label>
-                                                                        <div class="col-md-10">
-                                                                            <input type="number" class="form-control" name="quantity" id="quantity" placeholder="">
-                                                                            <div class="form-control-focus">
-                                                                            </div>
-                                                                            <span class="help-block"></span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
 
                                                                 <div class="col-md-12">
                                                                     <div class="form-group form-md-line-input has-success">
