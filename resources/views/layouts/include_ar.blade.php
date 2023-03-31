@@ -59,7 +59,7 @@
                   <li class="menu_item"><a class="menu_link active"    href="/about-us" data-scroll="about-us">عن الشركة</a></li>
 
                   <li class="menu_item"><a class="menu_link"   href="/cars" data-scroll="goal">المركبات</a></li>
-                  <li class="menu_item"><a class="menu_link"    href="/kamaliat"  data-scroll="serv">الكماليات</a></li>
+                  {{-- <li class="menu_item"><a class="menu_link"    href="/kamaliat"  data-scroll="serv">الكماليات</a></li> --}}
                   <li class="menu_item"><a class="menu_link"   href="/export"  data-scroll="why">التصدير </a></li>
                   <li class="menu_item"><a class="menu_link"    href="/evaluations"  data-scroll="partners">التقييمات</a></li>
                   <li class="menu_item"><a class="menu_link"    href="/learn"  data-scroll="partners">طريقة الشراء</a></li>

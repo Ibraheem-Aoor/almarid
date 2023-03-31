@@ -63,7 +63,7 @@
             <li class="menu_item"><a class="menu_link active" href="/en/about-us"   data-scroll="about-us">About Company</a></li>
 
             <li class="menu_item"><a class="menu_link" href="/en/cars"   data-scroll="goal">Cars</a></li>
-            <li class="menu_item"><a class="menu_link" href="/en/kamaliat"    data-scroll="serv">Accessories</a></li>
+            {{-- <li class="menu_item"><a class="menu_link" href="/en/kamaliat"    data-scroll="serv">Accessories</a></li> --}}
             <li class="menu_item"><a class="menu_link" href="/en/export"  data-scroll="why">Export </a></li>
             <li class="menu_item"><a class="menu_link" href="/en/evaluations"   data-scroll="partners">Ratings</a></li>
             <li class="menu_item"><a class="menu_link" href="/en/learn"    data-scroll="partners">How to Buy</a></li>

@@ -135,10 +135,9 @@ class IndexController extends Controller
 
     public function about()
     {
-        $brands = Brand::where('status',1)->get();
         return view('WEB.AR.about')->with('addresses',$this->addresses)
-                                       ->with('settings',$this->settings)
-                                       ->with('brands',$this->brands);
+                                    ->with('settings',$this->settings)
+                                    ->with('brands',$this->brands);
     }
 
     public function cars_search_advanced(Request $request)
