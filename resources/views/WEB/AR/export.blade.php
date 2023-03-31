@@ -94,7 +94,7 @@
                                             <h3 class="mb-2 mb-md-0">{{ $product->name }}</h3>
                                             <p class="bg-dark px-4 pt-3 pb-2 text-white rounded">
                                                 @isset($product->price_dollar)
-                                                    <span>${{ $product->price_dollar }}</span>
+                                                    <span>${{ $product->price_dollar }}</span>|
                                                 @endisset
                                                 <span>{{ $product->price }} درهم</span>
                                             </p>
