@@ -43,7 +43,7 @@
                             <div class="single-carSlider owl-carousel owl_3 px-4 ">
                                 @foreach ($c->images as $image)
                                     <a data-fancybox="gallery" href="{{ asset('/uploads/products/' . $image->image) }}">
-                                        <img src="{{ asset('/uploads/products/' . $image->image) }}" alt="">
+                                        <img src="{{ asset('/uploads/products/' . $image->image) }}" loading="lazy" alt="">
                                     </a>
                                 @endforeach
 
@@ -225,7 +225,7 @@
                                 <div class="col-lg-4 col-6   mb-3   wow fadeInDown" data-wow-delay="0.2s">
                                     <div class="single-car_feature text-center ">
                                         <div class="  rounded-max mb-3">
-                                            <img src="{{ asset('/uploads/services/' . $service->export_service->image) }}"
+                                            <img src="{{ asset('/uploads/services/' . $service->export_service->image) }}" loading="lazy"
                                                 class="img-fluid" alt="">
                                         </div>
                                         <div class="feature-text">

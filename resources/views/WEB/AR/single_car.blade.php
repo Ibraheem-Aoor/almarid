@@ -103,7 +103,7 @@ bg-white
                             <div class="col-lg-2 col-md-3 col-6 mb-3 mb-lg-0  wow fadeInDown" data-wow-delay="0.2s">
                               <div class="single-car_feature text-center ">
                                 <div class="feature-img rounded-max mb-3">
-                                  <img src="{{ asset('/uploads/categories/'.$o->optionCategory->image) }}" class="img-fluid" alt="">
+                                  <img src="{{ asset('/uploads/categories/'.$o->optionCategory->image) }}" loading="lazy" class="img-fluid" alt="">
                                 </div>
                                 <div class="feature-text">
                                   <span>{{$o->optionCategory->name}}</span>
