@@ -30,22 +30,60 @@ use Illuminate\Support\Facades\Mail;
 
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
+
 class IndexController extends Controller
 {
 
 
-    private $addresses = null;
-    private $settings = null;
+    private $addresses ,
+            $settings,
+            $brands,
+            $fuels,
+            $categories,
+            $models,
+            $min_price,
+            $max_price;
 
     public function __construct(){
-        $this->addresses = Address::where('status',1)->get();
-        $this->settings = Setting::all();
-        $this->brands = Brand::where('status',1)->get();
-        $this->models = Model::orderBy('name', 'asc')->get();
-        $this->fuels = Option::where('category_id',22)->get();
-        $this->categories = Category::where('status',1)->where('type','CAR')->get();
-        $this->min_price = Setting::where('key','min_price')->first()->value;
-        $this->max_price = Setting::where('key','max_price')->first()->value;
+        $this->setControllerData();
+    }
+
+    public function setControllerData()
+    {
+        $this->addresses = Cache::rememberForEver('addresses' , function()
+                            {
+                                return Address::where('status',1)->get();
+                            });
+        $this->settings = Cache::rememberForEver('settings' , function()
+                            {
+                                return Setting::all();
+                            });
+        $this->brands = Cache::rememberForever('brands' , function()
+                        {
+                            return Brand::where('status',1)->get();
+                        });
+        $this->models = Cache::rememberForever('models' , function()
+                        {
+                            return Model::orderBy('name', 'asc')->get();
+                        });
+        $this->fuels = Cache::rememberForever('fuels' , function()
+                        {
+                            return Option::where('category_id',22)->get();
+                        });
+
+        $this->categories = Cache::rememberForever('categories' , function()
+        {
+            return Category::where('status',1)->where('type','CAR')->get();;
+        });
+        $this->min_price = Cache::rememberForever('min_price' , function()
+        {
+                return Setting::where('key','min_price')->first()->value;
+        });
+        $this->max_price = Cache::rememberForever('max_price' , function()
+        {
+                return Setting::where('key','max_price')->first()->value;
+        });
     }
 
     public function index()
@@ -62,11 +100,18 @@ class IndexController extends Controller
 
         $arrayData = json_decode($data, true); // json object to array conversion
         */
-        $features = Feature::where('status',1)->get();
-        $methodologies = Methodology::where('status',1)->get();
-        $evaluations = Evaluation::where('status',1)->get();
-        $brands = Brand::where('status',1)->get();
-        $categories = Category::where('status',1)->where('type','CAR')->get();
+        $features = Cache::rememberForever('features', function ()
+                    {
+                            return Feature::where('status',1)->get();
+                    });
+        $methodologies = Cache::rememberForever('methodologies', function ()
+                        {
+                                return Methodology::where('status',1)->get();
+                        });
+        $evaluations = Cache::rememberForever('evaluations' , function()
+                        {
+                            return Evaluation::where('status',1)->get();
+                        });
         $products = Product::where('is_offer',0)->where('is_web',1)->where('status',1)->where('type','CAR')->orderBy('id', 'desc')->take(4)->get();
         $offers = Product::where('is_web',1)->where('status',1)->where('type','CAR')->where('is_offer',1)->orderBy('id', 'desc')->take(4)->get();
         return view('WEB.AR.index')->with('addresses',$this->addresses)
@@ -74,8 +119,8 @@ class IndexController extends Controller
                                    ->with('features',$features)
                                    ->with('methodologies',$methodologies)
                                    ->with('evaluations',$evaluations)
-                                   ->with('brands',$brands)
-                                   ->with('categories',$categories)
+                                   ->with('brands',$this->brands)
+                                   ->with('categories',$this->categories)
                                    ->with('offers',$offers)
                                    ->with('products',$products)
                                    ->with('categories',$this->categories)
