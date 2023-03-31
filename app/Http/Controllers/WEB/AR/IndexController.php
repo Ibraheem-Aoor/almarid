@@ -4,6 +4,7 @@ namespace App\Http\Controllers\WEB\AR;
 
 
 use App\Http\Controllers\Controller as Controller;
+use App\Http\Controllers\WEB\WebController;
 use Illuminate\Http\Request;
 use Basel\Paytabs\Paytabs;
 use App\Models\Address;
@@ -32,59 +33,9 @@ use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 
-class IndexController extends Controller
+class IndexController extends WebController
 {
 
-
-    private $addresses ,
-            $settings,
-            $brands,
-            $fuels,
-            $categories,
-            $models,
-            $min_price,
-            $max_price;
-
-    public function __construct(){
-        $this->setControllerData();
-    }
-
-    public function setControllerData()
-    {
-        $this->addresses = Cache::rememberForEver('addresses' , function()
-                            {
-                                return Address::where('status',1)->get();
-                            });
-        $this->settings = Cache::rememberForEver('settings' , function()
-                            {
-                                return Setting::all();
-                            });
-        $this->brands = Cache::rememberForever('brands' , function()
-                        {
-                            return Brand::where('status',1)->get();
-                        });
-        $this->models = Cache::rememberForever('models' , function()
-                        {
-                            return Model::orderBy('name', 'asc')->get();
-                        });
-        $this->fuels = Cache::rememberForever('fuels' , function()
-                        {
-                            return Option::where('category_id',22)->get();
-                        });
-
-        $this->categories = Cache::rememberForever('categories' , function()
-        {
-            return Category::where('status',1)->where('type','CAR')->get();;
-        });
-        $this->min_price = Cache::rememberForever('min_price' , function()
-        {
-                return Setting::where('key','min_price')->first()->value;
-        });
-        $this->max_price = Cache::rememberForever('max_price' , function()
-        {
-                return Setting::where('key','max_price')->first()->value;
-        });
-    }
 
     public function index()
     {

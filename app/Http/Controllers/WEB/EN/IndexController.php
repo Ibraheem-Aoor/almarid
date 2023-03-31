@@ -4,6 +4,7 @@ namespace App\Http\Controllers\WEB\EN;
 
 
 use App\Http\Controllers\Controller as Controller;
+use App\Http\Controllers\WEB\WebController;
 use Illuminate\Http\Request;
 use App\Models\Address;
 use App\Models\Contact;
@@ -27,54 +28,33 @@ use App\Models\Order;
 use App\Models\TrackingStatus;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 
-
-class IndexController extends Controller
+class IndexController extends WebController
 {
 
 
-    private $addresses = null;
-    private $settings = null;
-
-    public function __construct(){
-        $this->addresses = Address::where('status',1)->get();
-        $this->settings = Setting::all();
-        $this->brands = Brand::where('status',1)->get();
-        $this->models = Model::orderBy('name', 'asc')->get();
-        $this->fuels = Option::where('category_id',22)->get();
-        $this->categories = Category::where('status',1)->where('type','CAR')->get();
-        $this->min_price = Setting::where('key','min_price')->first()->value;
-        $this->max_price = Setting::where('key','max_price')->first()->value;
-    }
-
     public function index()
     {
-      /*  $cid='10988864596711032484';
-        $url = 'https://maps.googleapis.com/maps/api/place/details/json?cid='.$cid.'&key=<API-KEY>';
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HEADER, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        $data = curl_exec($ch);
-        curl_close($ch);
-
-        $arrayData = json_decode($data, true); // json object to array conversion
-        */
-        $features = Feature::where('status',1)->get();
-        $methodologies = Methodology::where('status',1)->get();
-        $evaluations = Evaluation::where('status',1)->get();
-        $brands = Brand::where('status',1)->get();
-        $categories = Category::where('status',1)->where('type','CAR')->get();
-        $products = Product::where('is_offer',0)->where('is_web',1)->where('status',1)->where('type','CAR')->orderBy('id', 'desc')->take(4)->get();
-        $offers = Product::where('is_web',1)->where('status',1)->where('type','CAR')->where('is_offer',1)->orderBy('id', 'desc')->take(4)->get();
-        return view('WEB.EN.index')->with('addresses',$this->addresses)
+        $features = Cache::rememberForever('features', function ()
+        {
+                return Feature::where('status',1)->get();
+        });
+    $methodologies = Cache::rememberForever('methodologies', function ()
+                {
+                        return Methodology::where('status',1)->get();
+                });
+    $evaluations = Cache::rememberForever('evaluations' , function()
+                {
+                    return Evaluation::where('status',1)->get();
+                });
+    $products = Product::where('is_offer',0)->where('is_web',1)->where('status',1)->where('type','CAR')->orderBy('id', 'desc')->take(4)->get();
+    $offers = Product::where('is_web',1)->where('status',1)->where('type','CAR')->where('is_offer',1)->orderBy('id', 'desc')->take(4)->get();
+    return view('WEB.EN.index')->with('addresses',$this->addresses)
                                    ->with('settings',$this->settings)
                                    ->with('features',$features)
                                    ->with('methodologies',$methodologies)
                                    ->with('evaluations',$evaluations)
-                                   ->with('brands',$brands)
-                                   ->with('categories',$categories)
                                    ->with('offers',$offers)
                                    ->with('products',$products)
                                    ->with('categories',$this->categories)
@@ -89,7 +69,6 @@ class IndexController extends Controller
 
     public function about()
     {
-        $brands = Brand::where('status',1)->get();
         return view('WEB.EN.about')->with('addresses',$this->addresses)
                                        ->with('settings',$this->settings)
                                        ->with('brands',$this->brands);
