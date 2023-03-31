@@ -93,7 +93,7 @@ class ProductsController extends BackendController {
 //        $is_offer = $this->data['is_offer'];
 //        $offer_id = $this->data['offer_id'];
 //        $offer_price = $this->data['offer_price'];
-        $quantity = $this->data['quantity'];
+        $quantity = $this->data['quantity'] ?? 30;
         $deposit = $this->data['deposit'];
         $is_new = $this->data['is_new'];
         $status = TRUE;
@@ -418,7 +418,7 @@ class ProductsController extends BackendController {
             foreach( $this->model2->where('product_id',$id)->get() as $web){
                 $deleted = $this->model2->destroy($web->id);
             }
-        
+
             return response()->json([
                 'success'=>TRUE,
                 'deleted_Restaurant'=>TRUE,
