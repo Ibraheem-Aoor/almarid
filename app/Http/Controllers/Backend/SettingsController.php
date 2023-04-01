@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\BackendController;
 use App\Models\Setting;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 
 class SettingsController extends BackendController
 {
@@ -58,7 +60,8 @@ class SettingsController extends BackendController
             }
         }
 
-        \Session::flash('success','تمت العملية بنجاح');
+        Artisan::call('optimize:clear');
+        session()->flash('success','تمت العملية بنجاح');
         return \Redirect::back();
     }
 
