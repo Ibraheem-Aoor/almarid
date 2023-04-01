@@ -42,6 +42,7 @@
     <link rel="stylesheet" href="{{ asset('web/assets/css/main.css?v=0.001')}}"/>
     <link rel="stylesheet" href="{{ asset('web/assets/css/ltr-style.css')}}"/>
     <link rel="stylesheet" href="{{asset('css/toastr.min.css')}}">
+    @stack('css')
   </head>
   <body><!-- begin:: Page -->
     <div class="main-wrapper">
