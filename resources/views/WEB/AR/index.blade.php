@@ -303,6 +303,18 @@
             <div class="widget__item-content text-center mx-auto">
                 <h3 class="widget__item-title font-bold mb-2">اراء عملاؤنـا</h3>
                 <p class="widget__item-desc">{{ $settings->where('key', 'rating_ar')->first()->value }} </p>
+
+                <div class="googleRate container text-center w-100">
+                    <img src="{{ asset('web/assets/images/Google_2015_logo.svg.png') }}" alt="">
+                    <div class="d-flex stars-list justify-content-center align-items-center my-3">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h2 A>5/5</h2>
+                </div>
             </div>
             <div class="testi-cont owl-carousel owl_2 mt-5">
                 @foreach ($evaluations as $evaluation)
@@ -384,17 +396,6 @@
         </div>
     </section>
 
-    <div class="googleRate container text-center w-100">
-        <img src="{{ asset('web/assets/images/Google_2015_logo.svg.png') }}" alt="">
-        <div class="d-flex stars-list justify-content-center align-items-center my-3">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-        </div>
-        <h2 A>5/5</h2>
-    </div>
 
 
 

@@ -124,7 +124,7 @@
   @foreach($addresses as $address)
 <div class="col-lg-2">
   <div class="single-footer">
-    <h3 class="mb-3">فرع  {{$address->branch}}</h3>
+    <h3 class="mb-3">{{$address->branch}}</h3>
     <ul class="list-unstyled">
       <li><a href="#"><i class="fas fa-phone pr-2"></i>{{$address->fax}}</a> </li>
       <li><a href="#"><i class="fal fa-headset pr-2"></i>  {{$address->phonenumber}}</a></li>
