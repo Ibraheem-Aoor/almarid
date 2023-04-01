@@ -17,13 +17,27 @@
         .fs-20 {
             font-size: 20px !important;
         }
+
+        @media (max-width: 767px) {
+            .col-sm-3 {
+                flex: 0 0 50% !important;
+                max-width: 50% !important;
+                font-size: 9px !important;
+                margin-bottom: 2% !important;
+            }
+
+            .fs-20 {
+                font-size: 12px !important;
+            }
+
+        }
     </style>
 @endpush
 @section('content')
     <div class="container">
 
         <h2 class="orange text-center mt-5 under__line mb-5">Contact Us</h2>
-        <div class="row phone-numbers">
+        <div class="row phone-numbers text-center">
             <div class="col-sm-3">
                 <div class="text-info"><a class="text-info" href="tel:00971508010737" target="_blank"><i class="fa fa-phone"></i>
                         00971508010737</a></div>
