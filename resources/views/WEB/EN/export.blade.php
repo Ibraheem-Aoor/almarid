@@ -39,6 +39,9 @@
                     <div class="export__text   wow fadeInRight  " data-wow-delay="0.2s">
 
                         <p>{{ $settings->where('key', 'export_en')->first()->value }}</p>
+                        <p class="text-danger">* Important note *</p>
+                        <p> In this section, the prices of cars for export
+                            Including tax and customs</p>
                     </div>
                 </div>
                 <div class="col-lg-5 mt-4 mt-lg-0">

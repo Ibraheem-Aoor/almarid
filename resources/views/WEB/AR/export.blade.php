@@ -39,6 +39,10 @@
                     <div class="export__text   wow fadeInRight  " data-wow-delay="0.2s">
 
                         <p>{{ $settings->where('key', 'export_ar')->first()->value }}</p>
+                        <p class="text-danger">* ملاحظة هامة *
+                        </p>
+                        <p>في هذا القسم أسعار السيارات للتصدير
+                            غير شاملة الضريبة و الجمارك.</p>
                     </div>
                 </div>
                 <div class="col-lg-5 mt-4 mt-lg-0">
