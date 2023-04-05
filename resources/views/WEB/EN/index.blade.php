@@ -116,30 +116,11 @@
                     </div>
                 </div>
             </div>
-            <!--<div class="cars-owl owl-carousel owl_1 wow fadeInDown" data-wow-delay="0.2s">-->
-
-            <!--@foreach ($categories as $category)
-    -->
-
-            <!--  <div class="single-car text-center    bg-white mx-2">-->
-
-            <!--    <div class="car-img  ">-->
-            <!--         <a href="/cars/search?category_id={{ $category->id }}">-->
-            <!--      <img src="{{ asset('/uploads/categories/' . $category->image) }}" alt="">-->
-            <!--       <h3>{{ $category->name_en }}</h3>-->
-            <!--      </a>-->
-            <!--    </div>-->
-
-            <!--  </div>-->
-
-            <!--
-    @endforeach-->
-            <!--</div>-->
 
             <div class="row wow fadeInDown" data-wow-delay="0.2s">
 
                 @foreach ($categories as $category)
-                    <div class="col-lg-3 mb-lg-0 mb-4">
+                    <div class="col-lg-4  mb-4">
                         <div class="single-car text-center    bg-white mx-2">
 
                             <div class="car-img  ">

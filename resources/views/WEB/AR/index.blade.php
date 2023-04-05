@@ -122,7 +122,7 @@
             <div class="row wow fadeInDown" data-wow-delay="0.2s">
 
                 @foreach ($categories as $category)
-                    <div class="col-lg-6 mb-lg-0 mb-4">
+                <div class="col-lg-4  mb-4">
                         <div class="single-car text-center    bg-white mx-2">
 
                             <div class="car-img  ">
