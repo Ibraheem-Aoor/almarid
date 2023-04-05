@@ -24,14 +24,14 @@ bg-white
                 <i class="fas fa-long-arrow-left mx-3"></i>
 
                 <a href="/evaluations"  >
-                
+
                     التقييمات</a>
             </div>
             <div class="add-opinion">
               <button class="btn px-5 rounded bg-main text-white pt-2 pb-1" data-toggle="modal" data-target="#testimonialsModal"> <i class="fas fa-heart mr-2"></i> اضف رأيك </button>
             </div>
           </div>
-        
+
         <div class="testimonialPage__cont mt-5">
           <div class="row">
             @foreach($evaluations as $evaluation)
@@ -49,27 +49,28 @@ bg-white
                 <p>{{$evaluation->message}}</p>
                 @if(!is_null($evaluation->file))
                 <div class="video ">
-                  
+
                   <a  href="{{asset('/uploads/evaluations/'.$evaluation->file)}}" data-rel="lightcase:myCollection" class="d-flex align-items-center justify-content-start play-video">
                   <img src="{{asset('/web/assets/images/video.png')}}" class="mr-3" alt="">
-                  شاهد 
+                  شاهد
                  </a>
                 </div>
                 @endif
               </div>
             </div>
           @endforeach
+          <img src="{{asset('web/assets/images/ratings-updated-6.png')}}" alt="">
           </div>
         </div>
-        
-        
+
+
         </div>
 
 <!-- Button trigger modal -->
- 
+
 
 <!-- Modal -->
- 
+
   <!-- Modal -->
   <div class="modal fade modal-filter" id="testimonialsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -80,14 +81,14 @@ bg-white
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        
+
         <form action="{{route('evaluation')}}" data-wow-delay="0.2s"  method="POST"  enctype="multipart/form-data">{{csrf_field()}}
-              <div class="modal-body">         
+              <div class="modal-body">
 
 <div class="row">
     <div class="col-lg-6 mb-3">
-      <div class="form-group"> 
-   
+      <div class="form-group">
+
         <input class="form-control" type="text" name="name" required placeholder="الاسم كامل"/>
       </div>
     </div>
@@ -102,14 +103,14 @@ bg-white
       </div>
     </div>
     <div class="col-lg-6 mb-3">
-      <div class="form-group"> 
-   
+      <div class="form-group">
+
         <input class="form-control" type="text" name="phonenumber" required placeholder="رقم الجوال"/>
       </div>
     </div>
     <div class="col-lg-6 mb-3">
-      <div class="form-group"> 
-   
+      <div class="form-group">
+
         <input class="form-control" type="email" name="email" required placeholder="البريد الالكتروني"/>
       </div>
     </div>
@@ -121,17 +122,17 @@ bg-white
     </div>
     </div>
       <div class="col-12 mb-2">
-        <div class="form-group"> 
-   
+        <div class="form-group">
+
           <textarea class="form-control" name="message" required id="exampleFormControlTextarea1" rows="3"  ></textarea>
         </div>
       </div>
-      
+
 </div>
-                
-                
-            
-            
+
+
+
+
         </div>
         <div class="modal-footer ">
            <button type="submit" class="btn btn-primary w-100 rounded py-2">اضافة</button>
@@ -140,6 +141,6 @@ bg-white
       </div>
     </div>
   </div>
-        
+
 
 @endsection
