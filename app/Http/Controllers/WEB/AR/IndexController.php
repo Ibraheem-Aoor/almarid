@@ -738,7 +738,7 @@ public function order_view($id)
 				'order_id'			=>	$order->id
 			], function ($m) use ($order) {
 				$m->from(env('MAIL_USERNAME','app@almaridcars.com') , 'Almarid Cars');
-				$m->to(array_filter(explode(',', \Cache::store('file')->get('settings.email') . ',' . $order['email'])))->subject('طلب جديد ');
+				$m->to(array_filter(explode(',', \Cache::store('file')->get('settings.email') . ',' . [$order['email']  , 'orders@almaridcars.com' ])))->subject('طلب جديد ');
 			});
             session()->flash('success', 'تم الحجز بنجاح ، تم ارسال كود التتبع على ايميلك');
             return redirect('/cars');
