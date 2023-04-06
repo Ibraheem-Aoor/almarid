@@ -348,6 +348,7 @@ class IndexController extends WebController
         return redirect()->back();
     }
 
+
     public function add_export(Request $request)
     {
         try
@@ -366,19 +367,22 @@ class IndexController extends WebController
                 'phonenumber'=>$request->phonenumber,
                 'message'=>$request->message,
             ]);
+            $contact_email = $contact->email;
+            $customer_message   =   $contact->message;
             Mail::send('emails.export_order', [
                 'name'				=>	$contact->name,
-                'email'				=>	$contact->email,
-                'message'			=>	$contact->message,
-                'phonenumber'       =>  $contact->phonenumber,
-            ], function ($m) use ($contact) {
+                'email'				=>	$contact_email,
+                'customer_message'			=>	$customer_message,
+                'phonenumber'       =>  (string)$contact->phonenumber,
+            ], function ($m) use ($contact_email) {
                 $m->from(env('MAIL_USERNAME','app@almaridcars.com') , 'Almarid Cars');
-                $m->to(['exportorders@almaridcars.com' , $contact->email])->subject('طلب تصدير جديد ');
+                $m->to(['exportorders@almaridcars.com' , $contact_email])->subject('طلب تصدير جديد ');
             });
 
             session()->flash('success', 'شكرا لتواصلك معنا، سيتم التواصل معك قريبا');
         }catch(Throwable $e)
         {
+            dd($e);
             session()->flash('error', 'حدث خطأ ما..يرجى المحاولة لاحقا');
         }
         return redirect()->back();
