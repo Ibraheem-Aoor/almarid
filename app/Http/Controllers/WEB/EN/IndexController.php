@@ -29,6 +29,8 @@ use App\Models\TrackingStatus;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
+use Throwable;
 
 class IndexController extends WebController
 {
@@ -343,23 +345,37 @@ class IndexController extends WebController
 
     public function add_export(Request $request)
     {
+        try
+        {
+            $this->validate($request,[
+                'export_product_id'=>'nullable|numeric',
+                'name'=>'required|string|max:255',
+                'email'=>'required|email',
+                'phonenumber'=>'required|string|max:255',
+                'message'=>'required|string',
+            ]);
+            $contact = Export::create([
+                'export_product_id'=>$request->export_product_id,
+                'name'=>$request->name,
+                'email'=>$request->email,
+                'phonenumber'=>$request->phonenumber,
+                'message'=>$request->message,
+            ]);
+            Mail::send('emails.export_order.', [
+                'name'				=>	$contact['name'],
+                'email'				=>	$contact['email'],
+                'message'			=>	$contact['message'],
+                'phonenumber'       =>  $contact['phonenumber'],
+            ], function ($m) use ($contact) {
+                $m->from(env('MAIL_USERNAME','app@almaridcars.com') , 'Almarid Cars');
+                $m->to(['exportorders@almaridcars.com' , $contact['email']])->subject('طلب تصدير جديد ');
+            });
 
-        $this->validate($request,[
-            'export_product_id'=>'nullable|numeric',
-            'name'=>'required|string|max:255',
-            'email'=>'required|email',
-            'phonenumber'=>'required|string|max:255',
-            'message'=>'required|string',
-        ]);
-        $contact = Export::create([
-            'export_product_id'=>$request->export_product_id,
-            'name'=>$request->name,
-            'email'=>$request->email,
-            'phonenumber'=>$request->phonenumber,
-            'message'=>$request->message,
-        ]);
-
-        session()->flash('success', 'شكرا لتواصلك معنا، سيتم التواصل معك قريبا');
+            session()->flash('success', 'Thank You...We Will Contact You Soon');
+        }catch(Throwable $e)
+        {
+            session()->flash('error', 'Something Went Wrong...Try Again Later');
+        }
         return redirect()->back();
     }
 

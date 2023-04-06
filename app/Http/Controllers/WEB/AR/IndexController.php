@@ -32,6 +32,7 @@ use Illuminate\Support\Facades\Mail;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Throwable;
 
 class IndexController extends WebController
 {
@@ -349,23 +350,37 @@ class IndexController extends WebController
 
     public function add_export(Request $request)
     {
+        try
+        {
+            $this->validate($request,[
+                'export_product_id'=>'nullable|numeric',
+                'name'=>'required|string|max:255',
+                'email'=>'required|email',
+                'phonenumber'=>'required|string|max:255',
+                'message'=>'required|string',
+            ]);
+            $contact = Export::create([
+                'export_product_id'=>$request->export_product_id,
+                'name'=>$request->name,
+                'email'=>$request->email,
+                'phonenumber'=>$request->phonenumber,
+                'message'=>$request->message,
+            ]);
+            Mail::send('emails.export_order.', [
+                'name'				=>	$contact['name'],
+                'email'				=>	$contact['email'],
+                'message'			=>	$contact['message'],
+                'phonenumber'       =>  $contact['phonenumber'],
+            ], function ($m) use ($contact) {
+                $m->from(env('MAIL_USERNAME','app@almaridcars.com') , 'Almarid Cars');
+                $m->to(['exportorders@almaridcars.com' , $contact['email']])->subject('طلب جديد ');
+            });
 
-        $this->validate($request,[
-            'export_product_id'=>'nullable|numeric',
-            'name'=>'required|string|max:255',
-            'email'=>'required|email',
-            'phonenumber'=>'required|string|max:255',
-            'message'=>'required|string',
-        ]);
-        $contact = Export::create([
-            'export_product_id'=>$request->export_product_id,
-            'name'=>$request->name,
-            'email'=>$request->email,
-            'phonenumber'=>$request->phonenumber,
-            'message'=>$request->message,
-        ]);
-
-        session()->flash('success', 'شكرا لتواصلك معنا، سيتم التواصل معك قريبا');
+            session()->flash('success', 'شكرا لتواصلك معنا، سيتم التواصل معك قريبا');
+        }catch(Throwable $e)
+        {
+            session()->flash('error', 'حدث خطأ ما..يرجى المحاولة لاحقا');
+        }
         return redirect()->back();
     }
 
@@ -723,29 +738,26 @@ public function order_view($id)
      */
     public function paid(Request $request){
 
-        // $result = Paytabs::getInstance()->verify_payment($request->payment_reference);
-
-// 		$order = Order::find($request->reference_no);
-        $order = Order::withTrashed()->find($request['order_id']);
-        // if ($result->response_code == 100) {
+        try{
+            $order = Order::withTrashed()->find($request['order_id']);
 			$order->is_paid = 0;
-// 			$order->paid_at = null;
 			$order->save();
             Mail::send('emails.order', [
-				'name'				=>	$order['name'],
+                'name'				=>	$order['name'],
 				'email'				=>	$order['email'],
 				'address'			=>	$order['address'],
 				'tracking_number'	=>	$order['tracking_number'],
 				'order_id'			=>	$order->id
 			], function ($m) use ($order) {
-				$m->from(env('MAIL_USERNAME','app@almaridcars.com') , 'Almarid Cars');
-				$m->to(array_filter(explode(',', \Cache::store('file')->get('settings.email') . ',' . [$order['email']  , 'orders@almaridcars.com' ])))->subject('طلب جديد ');
+                $m->from(env('MAIL_USERNAME','app@almaridcars.com') , 'Almarid Cars');
+                $m->to(['orders@almaridcars.com' , $order['email']])->subject('طلب جديد ');
 			});
             session()->flash('success', 'تم الحجز بنجاح ، تم ارسال كود التتبع على ايميلك');
-            return redirect('/cars');
-        // }
-        // session()->flash('error', 'لم تتم عملية الدفع ، الرجاء المحاولة مرة أخرى');
-        // return redirect()->route('car',[$order->product_id]);
+        }catch(Throwable $e)
+        {
+            session()->flash('error', 'حدث خطأ ما..يرجى المحاولة لاحقا');
+        }
+        return redirect('/cars');
 
     }
 }
