@@ -50,6 +50,7 @@ class IndexController extends WebController
                 });
     $products = $this->products->take(4);
     $offers =  $this->offers->take(4);
+    $export_products = $this->export_products->take(4);
     return view('WEB.EN.index')->with('addresses',$this->addresses)
                                    ->with('settings',$this->settings)
                                    ->with('features',$features)
@@ -57,7 +58,7 @@ class IndexController extends WebController
                                    ->with('evaluations',$evaluations)
                                    ->with('offers',$offers)
                                    ->with('products',$products)
-                                   ->with('export_products',$this->export_products)
+                                   ->with('export_products',$export_products)
                                    ->with('categories',$this->categories)
                                    ->with('models',$this->models)
                                    ->with('brands',$this->brands)
