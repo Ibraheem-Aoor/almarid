@@ -366,14 +366,14 @@ class IndexController extends WebController
                 'phonenumber'=>$request->phonenumber,
                 'message'=>$request->message,
             ]);
-            Mail::send('emails.export_order.', [
-                'name'				=>	$contact['name'],
-                'email'				=>	$contact['email'],
-                'message'			=>	$contact['message'],
-                'phonenumber'       =>  $contact['phonenumber'],
+            Mail::send('emails.export_order', [
+                'name'				=>	$contact->name,
+                'email'				=>	$contact->email,
+                'message'			=>	$contact->message,
+                'phonenumber'       =>  $contact->phonenumber,
             ], function ($m) use ($contact) {
                 $m->from(env('MAIL_USERNAME','app@almaridcars.com') , 'Almarid Cars');
-                $m->to(['exportorders@almaridcars.com' , $contact['email']])->subject('طلب جديد ');
+                $m->to(['exportorders@almaridcars.com' , $contact->email])->subject('طلب تصدير جديد ');
             });
 
             session()->flash('success', 'شكرا لتواصلك معنا، سيتم التواصل معك قريبا');

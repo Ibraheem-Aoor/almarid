@@ -361,23 +361,24 @@ class IndexController extends WebController
                 'phonenumber'=>$request->phonenumber,
                 'message'=>$request->message,
             ]);
-            Mail::send('emails.export_order.', [
-                'name'				=>	$contact['name'],
-                'email'				=>	$contact['email'],
-                'message'			=>	$contact['message'],
-                'phonenumber'       =>  $contact['phonenumber'],
+            Mail::send('emails.export_order', [
+                'name'				=>	$contact->name,
+                'email'				=>	$contact->email,
+                'message'			=>	$contact->message,
+                'phonenumber'       =>  $contact->phonenumber,
             ], function ($m) use ($contact) {
                 $m->from(env('MAIL_USERNAME','app@almaridcars.com') , 'Almarid Cars');
-                $m->to(['exportorders@almaridcars.com' , $contact['email']])->subject('طلب تصدير جديد ');
+                $m->to(['exportorders@almaridcars.com' , $contact->email])->subject('طلب تصدير جديد ');
             });
 
-            session()->flash('success', 'Thank You...We Will Contact You Soon');
+            session()->flash('success', 'شكرا لتواصلك معنا، سيتم التواصل معك قريبا');
         }catch(Throwable $e)
         {
-            session()->flash('error', 'Something Went Wrong...Try Again Later');
+            session()->flash('error', 'حدث خطأ ما..يرجى المحاولة لاحقا');
         }
         return redirect()->back();
     }
+
 
 
     public function offers()
