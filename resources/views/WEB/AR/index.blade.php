@@ -9,6 +9,37 @@
 @section('url')
     /en/
 @endsection
+@push('css')
+    <style>
+        .car-label {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: #0A53A4;
+            color: #fff;
+            text-align: center;
+            padding: 5px 10px;
+            font-weight: bold;
+            font-size: 14px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .car-label p {
+            margin: 0;
+            color:  #ffff !important;
+        }
+
+        @media screen and (max-width: 767px) {
+            .car-label {
+                top: -15px;
+                left: auto;
+                right: 10px;
+                font-size: 12px;
+            }
+        }
+    </style>
+@endpush
 
 
 @section('section')
@@ -122,7 +153,7 @@
             <div class="row wow fadeInDown" data-wow-delay="0.2s">
 
                 @foreach ($categories as $category)
-                <div class="col-lg-4  mb-4">
+                    <div class="col-lg-4  mb-4">
                         <div class="single-car text-center    bg-white mx-2">
 
                             <div class="car-img  ">
@@ -198,7 +229,7 @@
                     <div class="col-lg-3 col-md-6 mb-3 wow fadeInDown" data-wow-delay="0.2s">
                         <a href="/car/{{ $product->id }}">
                             <div class="single-mainCar">
-                                <div class="main-img py-2">
+                                <div class="main-img py-4">
                                     <img src="{{ asset('/uploads/products/' . $product->image) }}" alt=""
                                         class="img-fluid">
                                 </div>
@@ -206,8 +237,51 @@
                                     <h5>{{ $product->name }}</h5>
                                 </div>
                                 <div class="options d-flex align-items-center justify-content-start">
-                                    <p class="mr-2">{{ $product->model->name }} | </p>
-                                    <p class="mr-2">{{ $product->category->name }} | </p>
+                                    <p class="mr-2">{{ $product->model->name }} </p>
+                                    <p class="mr-2"> | {{ $product->category->name }} </p>
+                                    <p class="mr-2">
+                                        @if ($product->is_new == 1)
+                                            | جديد
+                                        @endif
+                                    </p>
+                                </div>
+                                <hr>
+                                <div class="maincar-price d-flex align-items-center justify-content-between">
+                                    <h5 class="color">{{ $product->price }} درهم </h5>
+                                </div>
+                            </div>
+
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+    <section class="  latest-cars">
+        <div class="container">
+            <div class="top-tittle d-flex align-items-center justify-content-between">
+                <h3 class="wow fadeInDown" data-wow-delay="0.2s">احدث سيارات التصدير</h3>
+                <a class="btn btn-primary btn-sm  wow fadeInLeft scrollTo rounded px-5" data-wow-delay="0.3s"
+                    href="/export"> المزيد</a>
+            </div>
+            <div class="row mt-5">
+                @foreach ($export_products as $product)
+                    <div class="col-lg-3 col-md-6 mb-5 wow fadeInDown" data-wow-delay="0.2s">
+                        <a href="/export/car/{{ $product->id }}">
+                            <div class="single-mainCar">
+                                <div class="main-img py-4">
+                                    <img src="{{ asset('/uploads/products/' . $product->image) }}" alt=""
+                                        class="img-fluid">
+                                    <div class="car-label">
+                                        <p>للتصدير</p>
+                                    </div>
+                                </div>
+                                <div class="maincar-title mb-2">
+                                    <h5>{{ $product->name }}</h5>
+                                </div>
+                                <div class="options d-flex align-items-center justify-content-start">
+                                    <p class="mr-2">{{ $product->model }} </p>
+                                    <p class="mr-2">| {{ $product->geer }} </p>
                                     <p class="mr-2">
                                         @if ($product->is_new == 1)
                                             جديد
@@ -218,9 +292,8 @@
                                 <div class="maincar-price d-flex align-items-center justify-content-between">
                                     <h5 class="color">{{ $product->price }} درهم </h5>
                                 </div>
-
-
                             </div>
+
                         </a>
                     </div>
                 @endforeach

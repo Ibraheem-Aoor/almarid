@@ -39,18 +39,7 @@ class IndexController extends WebController
 
     public function index()
     {
-      /*  $cid='10988864596711032484';
-        $url = 'https://maps.googleapis.com/maps/api/place/details/json?cid='.$cid.'&key=<API-KEY>';
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HEADER, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        $data = curl_exec($ch);
-        curl_close($ch);
 
-        $arrayData = json_decode($data, true); // json object to array conversion
-        */
         $features = Cache::rememberForever('features', function ()
                     {
                             return Feature::where('status',1)->get();
@@ -63,8 +52,8 @@ class IndexController extends WebController
                         {
                             return Evaluation::where('status',1)->get();
                         });
-        $products = Product::where('is_offer',0)->where('is_web',1)->where('status',1)->where('type','CAR')->orderBy('id', 'desc')->take(4)->get();
-        $offers = Product::where('is_web',1)->where('status',1)->where('type','CAR')->where('is_offer',1)->orderBy('id', 'desc')->take(4)->get();
+        $products = $this->products->take(4);
+        $offers =  $this->offers->take(4);;
         return view('WEB.AR.index')->with('addresses',$this->addresses)
                                    ->with('settings',$this->settings)
                                    ->with('features',$features)
@@ -74,6 +63,7 @@ class IndexController extends WebController
                                    ->with('categories',$this->categories)
                                    ->with('offers',$offers)
                                    ->with('products',$products)
+                                   ->with('export_products',$this->export_products)
                                    ->with('categories',$this->categories)
                                    ->with('models',$this->models)
                                    ->with('brands',$this->brands)
@@ -103,7 +93,7 @@ class IndexController extends WebController
         $current_max_price = $current_price[1]; //input()
         $name = request()->query('name',''); //input()
 
-        $products = Product::where('is_offer',0)->where('is_web',1)->where('status', 1)->where('type','CAR')
+        $products = Product::query()->where('is_web',1)->where('status', 1)->where('type','CAR')
         ->where(function ($s) use ($name,$category_id,$brand_id,$model_id,$fuel_id,$current_min_price,$current_max_price) {
           $s->when($category_id,function($query,$category_id){
             return $query->where('category_id','=',$category_id);
@@ -132,7 +122,34 @@ class IndexController extends WebController
       })
       ->orderBy('id', 'desc')->get();
 
-      return view('WEB.AR.cars')->with('products',$products)
+    //   Search for product in export products
+      $export_products  =  ExportProduct::query()
+      ->where(function ($s) use ($name,$category_id,$brand_id,$model_id,$fuel_id,$current_min_price,$current_max_price) {
+        $s->when($model_id,function($query,$model_id){
+            return $query->where('model','   ', '%'.Model::query()->find($model_id)->name.'%');
+        })
+        ->when($current_max_price,function($query,$current_max_price){
+            return $query->where('price','<=',$current_max_price);
+        })
+        ->when($current_min_price,function($query,$current_min_price){
+            return $query->where('price','>=',$current_min_price);
+        })
+        ->when($name,function($query,$name){
+            return $query->where('name','like', '%'.$name.'%')
+            ->orWhere('name_en','like','%'.$name.'%');
+        })
+        ->when($brand_id,function($query,$brand_id){
+            return $query->where('name','like','%'.Brand::query()->find($brand_id)->name.'%')
+                    ->orWhere('name_en','like','%'.Brand::query()->find($brand_id)->name.'%');
+        });
+    })
+    ->orderBy('id', 'desc')
+    ->where('is_web',1)->where('status', 1)
+    ->get();
+
+
+    return view('WEB.AR.cars')->with('products',$products)
+                                ->with('export_products' , $export_products)
                                 ->with('addresses',$this->addresses)
                                 ->with('settings',$this->settings)
                                 ->with('categories',$this->categories)
@@ -157,7 +174,7 @@ class IndexController extends WebController
         $brand_id = request()->query('brand_id',''); //input()
         $model_id = request()->query('model_id',''); //input()
 
-        $products = Product::where('is_offer',0)->where('is_web',1)->where('status', 1)->where('type','CAR')
+        $products = Product::query()->where('is_web',1)->where('status', 1)->where('type','CAR')
         ->where(function ($s) use ($category_id,$brand_id,$model_id) {
           $s->when($category_id,function($query,$category_id){
             return $query->where('category_id','=',$category_id);
@@ -171,8 +188,22 @@ class IndexController extends WebController
       })
       ->orderBy('id', 'desc')->get();
 
+      $export_products = ExportProduct::query()
+      ->where(function ($s) use ($model_id , $brand_id) {
+        $s->when($model_id,function($query,$model_id){
+            return $query->where('model','like','%'.Model::query()->find($model_id)->name.'%');
+        });
+        $s->when($brand_id,function($query,$brand_id){
+            return $query->where('name','like','%'.Brand::query()->find($brand_id)->name.'%')
+                    ->orWhere('name_en','like','%'.Brand::query()->find($brand_id)->name.'%');
+        });
+    })->where('is_web',1)->where('status', 1)
+    ->orderBy('id', 'desc')->get();
+
+
       return view('WEB.AR.cars')->with('products',$products)
                                 ->with('addresses',$this->addresses)
+                                ->with('export_products',$export_products)
                                 ->with('settings',$this->settings)
                                 ->with('categories',$this->categories)
                                 ->with('models',$this->models)
@@ -360,10 +391,11 @@ class IndexController extends WebController
     }
     public function cars()
     {
-        $products = Product::where('is_offer',0)->where('is_web',1)->where('status',1)->where('type','CAR')->orderBy('id', 'desc')->get();
+        $products = $this->products;
         return view('WEB.AR.cars')->with('addresses',$this->addresses)
                                   ->with('settings',$this->settings)
                                   ->with('products',$products)
+                                  ->with('export_products',$this->export_products)
                                   ->with('categories',$this->categories)
                                   ->with('models',$this->models)
                                   ->with('brands',$this->brands)
@@ -381,11 +413,9 @@ class IndexController extends WebController
 
     public function export()
     {
-        $products = ExportProduct::where('is_web',1)->where('status',1)->orderBy('id', 'desc')->get();
-
         return view('WEB.AR.export')->with('addresses',$this->addresses)
                                     ->with('settings',$this->settings)
-                                    ->with('products',$products);
+                                    ->with('products',$this->export_products);
     }
 
     public function questions()

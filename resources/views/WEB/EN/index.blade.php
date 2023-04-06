@@ -9,7 +9,9 @@
 @section('url')
     /
 @endsection
+@push('css')
 
+@endpush
 
 @section('section')
 
@@ -151,7 +153,7 @@
                     <div class="col-lg-3 col-md-6 mb-3 wow fadeInDown" data-wow-delay="0.2s">
                         <a href="/en/car/{{ $product->id }}">
                             <div class="single-mainCar">
-                                <div class="main-img py-2">
+                                <div class="main-img py-4">
                                     <img src="{{ asset('/uploads/products/' . $product->image) }}" alt=""
                                         class="img-fluid">
                                 </div>
@@ -210,6 +212,48 @@
                                     <p class="mr-2">
                                         @if ($product->is_new == 1)
                                             New
+                                        @endif
+                                    </p>
+                                </div>
+                                <hr>
+                                <div class="maincar-price d-flex align-items-center justify-content-between">
+                                    <h5 class="color">{{ $product->price }} Dirham </h5>
+                                </div>
+
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+    <section class="latest-cars">
+        <div class="container">
+            <div class="top-tittle d-flex align-items-center justify-content-between">
+                <h3 class="wow fadeInDown" data-wow-delay="0.2s">Latest Export Cars</h3>
+                <a class="btn btn-primary btn-sm  wow fadeInLeft scrollTo rounded px-5" data-wow-delay="0.3s"
+                    href="/en/export"> More</a>
+            </div>
+            <div class="row mt-5">
+                @foreach ($export_products as $product)
+                    <div class="col-lg-3 col-md-6 mb-5 wow fadeInDown" data-wow-delay="0.2s">
+                        <a href="/en/export/car/{{ $product->id }}">
+                            <div class="single-mainCar">
+                                <div class="main-img py-4">
+                                    <img src="{{ asset('/uploads/products/' . $product->image) }}" alt=""
+                                        class="img-fluid">
+                                    <div class="car-label">
+                                        <p>FOR EXPORT</p>
+                                    </div>
+                                </div>
+                                <div class="maincar-title mb-2">
+                                    <h5>{{ $product->name_en }}</h5>
+                                </div>
+                                <div class="options d-flex align-items-center justify-content-start">
+                                    <p class="mr-2">| {{ $product->model }} </p>
+                                    <p class="mr-2">
+                                        @if ($product->is_new == 1)
+                                            | New
                                         @endif
                                     </p>
                                 </div>

@@ -9,6 +9,8 @@ use App\Models\Brand;
 use App\Models\Model;
 use App\Models\Option;
 use App\Models\Category;
+use App\Models\ExportProduct;
+use App\Models\Product;
 use Illuminate\Support\Facades\Cache;
 
 class WebController extends Controller
@@ -22,8 +24,10 @@ class WebController extends Controller
             $categories,
             $models,
             $min_price,
-            $max_price;
-
+            $max_price,
+            $export_products,
+            $products,
+            $offers;
     public function __construct(){
         $this->setControllerData();
     }
@@ -52,16 +56,29 @@ class WebController extends Controller
                         });
 
         $this->categories = Cache::rememberForever('categories' , function()
-        {
-            return Category::where('status',1)->where('type','CAR')->get();;
-        });
+                        {
+                            return Category::where('status',1)->where('type','CAR')->get();;
+                        });
         $this->min_price = Cache::rememberForever('min_price' , function()
-        {
-                return Setting::where('key','min_price')->first()->value;
-        });
+                        {
+                                return Setting::where('key','min_price')->first()->value;
+                        });
         $this->max_price = Cache::rememberForever('max_price' , function()
-        {
-                return Setting::where('key','max_price')->first()->value;
-        });
+                        {
+                                return Setting::where('key','max_price')->first()->value;
+                        });
+        $this->export_products = Cache::rememberForever('export_products' , function()
+                        {
+                                return ExportProduct::query()->where('is_web', 1)->whereStatus(1)->orderByDesc('created_at')->get();
+                        });
+        $this->products = Cache::rememberForever('products' , function()
+                        {
+                                return Product::query()->where('is_offer',0)->where('is_web',1)->where('status',1)->where('type','CAR')->orderByDesc('created_at')->get();;
+
+                        });
+        $this->offers = Cache::rememberForever('offers' , function()
+                        {
+                                return Product::where('is_web',1)->where('status',1)->where('type','CAR')->where('is_offer',1)->orderByDesc('created_at')->get();
+                        });
     }
 }
