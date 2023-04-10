@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\BackendController;
+use App\Models\Brand;
 use Illuminate\Http\Request;
 use App\Models\ExportProduct;
 use App\Models\ExportProductService;
@@ -24,8 +25,9 @@ class ExportProductsController extends BackendController {
     public function index(){
         $this->data['title'] = $this->title;
         $this->data['route'] = $this->route;
-            $this->data['services'] = ExportService::get();
-            return view('backend/'.$this->view_folder.'/index')->with('data',$this->data);
+        $this->data['brands']   =   Brand::query()->select(['id' , 'name'])->get();
+        $this->data['services'] = ExportService::get();
+        return view('backend/'.$this->view_folder.'/index')->with('data',$this->data);
     }
 
     public function data(){
@@ -63,8 +65,6 @@ class ExportProductsController extends BackendController {
 
     public function add(Request $request){
         $this->data = $request->all();
-
-
         $name = $this->data['name'];
         $name_en = $this->data['name_en'];
         $make = $this->data['make'];
@@ -86,6 +86,7 @@ class ExportProductsController extends BackendController {
         $wheel_drive = $this->data['wheel_drive'];
         $services = $this->data['services'];
         $status = TRUE;
+        $brand_id   =   $this->data['brand_id'];
         $image_path = $this->uploadImage($request, 'image', $this->upload_folder);
 
         $object = $this->model->create([
@@ -110,6 +111,7 @@ class ExportProductsController extends BackendController {
             'geer'=>$geer,
             'wheel_drive'=>$wheel_drive,
             'status'=>$status,
+            'brand_id'  => $brand_id,
         ]);
 
         if(isset($services) && !empty($services) && count($services) > 0){
@@ -120,7 +122,7 @@ class ExportProductsController extends BackendController {
                 ]);
             }
         }
-            
+
         if($object){
             $object_row = '';
             $object_row.= '<tr role="row">';
@@ -186,6 +188,7 @@ class ExportProductsController extends BackendController {
         $geer = $this->data['geer'];
         $wheel_drive = $this->data['wheel_drive'];
         $services = $this->data['services'];
+        $brand_id   =   $this->data['brand_id'];
 
         $object = $this->model->find($this->data['id']);
         $update = [
@@ -208,9 +211,10 @@ class ExportProductsController extends BackendController {
             'wheel_drive'=>$wheel_drive,
             'phone'=>$phone,
             'phone1'=>$phone1,
+            'brand_id'      =>  $brand_id,
         ];
 
-        
+
         if($request->hasFile('image')){
             $image_path = $this->uploadImage($request, 'image', $this->upload_folder);
             @unlink('uploads/'.$this->upload_folder.'/'.$object->image);
@@ -235,7 +239,7 @@ class ExportProductsController extends BackendController {
 
             }
             ExportProductService::where('export_product_id',$object->id)->whereNotIn('id',$servicesArray)->delete();
-            
+
 }
         if($object){
             $object_row = '';
@@ -285,8 +289,8 @@ class ExportProductsController extends BackendController {
             $this->data['route'] = $this->route;
             $this->data['upload_folder'] = $this->upload_folder;
             $this->data['export_product_service'] = ExportProductService::where('export_product_id',$request->input('id'))->pluck('export_service_id')->toArray();
+            $this->data['brands']   =   Brand::query()->select(['id' , 'name'])->get();
             $this->data['services'] = ExportService::get();
-            
             return response()->json([
                     'success' => TRUE,
                     'page' => view('backend/'.$this->view_folder.'/edit')
@@ -318,7 +322,7 @@ class ExportProductsController extends BackendController {
         $this->data = $request->all();
         $id = $this->data['id'];
         $deletedRestaurant = $this->model->destroy($id);
-        
+
             foreach( $this->model2->where('export_product_id',$id)->get() as $web){
                 $deleted = $this->model2->destroy($web->id);
             }

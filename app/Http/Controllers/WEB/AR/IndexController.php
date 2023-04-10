@@ -141,8 +141,9 @@ class IndexController extends WebController
             ->orWhere('name_en','like','%'.$name.'%');
         })
         ->when($brand_id,function($query,$brand_id){
-            return $query->where('name','like','%'.Brand::query()->find($brand_id)->name.'%')
-                    ->orWhere('name_en','like','%'.Brand::query()->find($brand_id)->name.'%');
+            return $query->Where('brand_id' , $brand_id)
+            ->orWhere('name','like','%'.Brand::query()->find($brand_id)->name.'%')
+            ->orWhere('name_en','like','%'.Brand::query()->find($brand_id)->name.'%');
         });
     })
     ->orderBy('id', 'desc')
@@ -196,8 +197,9 @@ class IndexController extends WebController
             return $query->where('model','like','%'.Model::query()->find($model_id)->name.'%');
         });
         $s->when($brand_id,function($query,$brand_id){
-            return $query->where('name','like','%'.Brand::query()->find($brand_id)->name.'%')
-                    ->orWhere('name_en','like','%'.Brand::query()->find($brand_id)->name.'%');
+            return $query->Where('brand_id' , $brand_id)
+            ->orWhere('name','like','%'.Brand::query()->find($brand_id)->name.'%')
+            ->orWhere('name_en','like','%'.Brand::query()->find($brand_id)->name.'%');
         });
     })->where('is_web',1)->where('status', 1)
     ->orderBy('id', 'desc')->get();

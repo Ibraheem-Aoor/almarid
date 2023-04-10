@@ -11,6 +11,8 @@
 |
 */
 
+use App\Models\ExportProduct;
+use Illuminate\Support\Facades\Artisan;
 
 Route::get('/', 'WEB\AR\IndexController@index');
 Route::get('/about-us', 'WEB\AR\IndexController@about');
@@ -346,4 +348,15 @@ Route::group(['middleware' => 'web','prefix' => config('app.prefix','admin')], f
 
 	//////////////////////////////////////////////////////////////
 
+});
+
+
+Route::get('clear-cache' , function(){
+    Artisan::call('optimize:clear');
+    return back();
+});
+
+Route::get('set-products-geer', function () {
+    ExportProduct::query()->update(['geer' => 'auto']);
+    return back();
 });

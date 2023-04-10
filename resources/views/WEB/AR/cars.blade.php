@@ -128,8 +128,6 @@
                                     <div class="sold-out-label">
                                         <p>SOLD OUT</p>
                                     </div>
-                                    @else
-                                    {{ $product->is_sold }}
                                 @endif
                                 <div class="main-img py-2">
                                     <img src="{{ asset('/uploads/products/' . $product->image) }}" loading="lazy"

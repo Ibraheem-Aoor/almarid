@@ -50,7 +50,7 @@
             e.preventDefault();
             postEditableData();
         });
- 
+
 
     });
 
@@ -299,14 +299,17 @@
                                                                     <div class="form-group form-md-line-input has-success">
                                                                         <label class="col-md-2 control-label" for="price">الجير</label>
                                                                         <div class="col-md-10">
-                                                                            <input type="text" class="form-control" name="geer"  id="name" placeholder="الجير">
+                                                                            <select name="geer" class="form-control">
+                                                                                <option value="auto" selected>Auto</option>
+                                                                                <option value="manual">Manual</option>z
+                                                                            </select>
                                                                             <div class="form-control-focus">
                                                                             </div>
                                                                             <span class="help-block"></span>
                                                                         </div>
                                                                     </div>
-                                                                </div> 
-                                                                
+                                                                </div>
+
   <div class="col-md-12">
                                                                     <div class="form-group form-md-line-input has-success">
                                                                         <label class="col-md-2 control-label" for="price">الدفع</label>
@@ -317,7 +320,7 @@
                                                                             <span class="help-block"></span>
                                                                         </div>
                                                                     </div>
-                                                                </div>  
+                                                                </div>
                                                                 <div class="col-md-12">
                                                                     <div class="form-group form-md-line-input has-success">
                                                                         <label class="col-md-2 control-label" for="price">المصنع</label>
@@ -328,7 +331,24 @@
                                                                             <span class="help-block"></span>
                                                                         </div>
                                                                     </div>
-                                                                </div><div class="col-md-12">
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group form-md-line-input has-success">
+                                                                        <label class="col-md-2 control-label" for="price">العلامة التجارية</label>
+                                                                        <div class="col-md-10">
+                                                                            <select name="brand_id" class="form-control" required>
+                                                                                <option value="">----</option>
+                                                                                @foreach ($data['brands'] as  $brand)
+                                                                                <option value="{{$brand->id}}">{{$brand->name}}</option>
+                                                                                @endforeach
+                                                                            </select>
+                                                                            <div class="form-control-focus">
+                                                                            </div>
+                                                                            <span class="help-block"></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12">
                                                                     <div class="form-group form-md-line-input has-success">
                                                                         <label class="col-md-2 control-label" for="price">السنة</label>
                                                                         <div class="col-md-10">
@@ -411,8 +431,8 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                
-                                                                
+
+
                                                                 <div class="col-md-12">
                                                                     <div class="form-group form-md-line-input has-success">
                                                                         <label class="col-md-2 control-label" for="price">محرك</label>
@@ -466,7 +486,7 @@
                                                                             <span class="help-block"></span>
                                                                         </div>
                                                                     </div>
-                                                                </div> 
+                                                                </div>
                                                                 <div class="col-md-12">
                                                                     <div class="form-group form-md-line-input has-success">
                                                                         <label class="col-md-2 control-label" for="price">عنوان ورقم جوال 2</label>
@@ -494,7 +514,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                
+
                                                                 <div class="col-md-12">
                                                                     <div class="form-group">
                                                                         <label class="col-md-4 control-label" for="image">صورة</label>
