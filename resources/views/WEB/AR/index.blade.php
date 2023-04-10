@@ -27,7 +27,7 @@
 
         .car-label p {
             margin: 0;
-            color:  #ffff !important;
+            color: #ffff !important;
         }
 
         @media screen and (max-width: 767px) {
@@ -229,7 +229,12 @@
                     <div class="col-lg-3 col-md-6 mb-3 wow fadeInDown" data-wow-delay="0.2s">
                         <a href="/car/{{ $product->id }}">
                             <div class="single-mainCar">
-                                <div class="main-img py-4">
+                                @if ($product->is_sold)
+                                    <div class="sold-out-label">
+                                        <p>SOLD OUT</p>
+                                    </div>
+                                @endif
+                                <div class="main-img py-2">
                                     <img src="{{ asset('/uploads/products/' . $product->image) }}" alt=""
                                         class="img-fluid">
                                 </div>
@@ -237,11 +242,11 @@
                                     <h5>{{ $product->name }}</h5>
                                 </div>
                                 <div class="options d-flex align-items-center justify-content-start">
-                                    <p class="mr-2">{{ $product->model->name }} </p>
-                                    <p class="mr-2"> | {{ $product->category->name }} </p>
+                                    <p class="mr-2">{{ $product->model->name }} | </p>
+                                    <p class="mr-2">{{ $product->category->name }} | </p>
                                     <p class="mr-2">
                                         @if ($product->is_new == 1)
-                                            | جديد
+                                            جديد
                                         @endif
                                     </p>
                                 </div>
@@ -250,7 +255,6 @@
                                     <h5 class="color">{{ $product->price }} درهم </h5>
                                 </div>
                             </div>
-
                         </a>
                     </div>
                 @endforeach

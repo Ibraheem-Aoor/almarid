@@ -12,7 +12,9 @@ use App\Models\ProductImage;
 use App\Models\ProductOption;
 use Illuminate\Http\Request;
 use App\Models\Product;
-
+use Illuminate\Filesystem\Cache;
+use Illuminate\Support\Facades\Cache as FacadesCache;
+use Yajra\DataTables\Facades\DataTables;
 
 class ProductsController extends BackendController {
 
@@ -42,36 +44,42 @@ class ProductsController extends BackendController {
 
     public function data(){
         $objects = $this->model->select('*')->where('type', 'CAR');
-        return \Datatables::of($objects)
+        return DataTables::of($objects)
             ->addColumn('status', function ($object) {
-                $is_active = '';
-                $is_active.='<div class="col-md-12">';
-                $is_active.='<div class="md-checkbox">';
-                if($object->status == TRUE) {
-                    //$is_active .= '<input type="checkbox" value="' . $object->id . '" checked id="checkbox33_' . $object->id . '" class="md-check">';
-                    $is_active .= '<label class="btn btn-success"  onclick="ch_st(' . $object->id . ')" id="label_status_' . $object->id . '" for="checkbox33_' . $object->id . '">';
-                    $is_active .= '<span class="inc"></span>';
-                    $is_active .= '<span class="check"></span>';
-                    $is_active .= '<span class="box"></span>مفعل';;
-                    $is_active .= '</label>';
-                }
-                else {
-                    //$is_active .= '<input type="checkbox" value="' . $object->id . '" id="checkbox33_' . $object->id . '" class="md-check">';
-                    $is_active .= '<label class="btn btn-danger"  onclick="ch_st(' . $object->id . ')" id="label_status_' . $object->id . '" for="checkbox33_' . $object->id . '">';
-                    $is_active .= '<span class="inc"></span>';
-                    $is_active .= '<span class="check"></span>';
-                    $is_active .= '<span class="box"></span>تفعيل؟';
-                    $is_active .= '</label>';
-                }
+                $status_class   =   $object->status ? "success" : "danger";
+                $status_text    =   $object->status ? "مفعل" : "تفعيل؟";
+                $is_active  =   '<div class="col-md-12">';
+                $is_active  .=  '<div class="md-checkbox">';
+                $is_active .= "<label class='btn btn-{$status_class}'  onclick='ch_st($object->id , `status`)' id='status_label_status_{$object->id}' for='checkbox33_{$object->id}'>";
+                $is_active .= '<span class="inc"></span>';
+                $is_active .= '<span class="check"></span>';
+                $is_active .= '<span class="box"></span>'.$status_text;
+                $is_active .= '</label>';
                 $is_active .= '</div>';
                 $is_active .= '</div>';
                 return $is_active;
             })
+            ->addColumn('is_sold', function ($object) {
+                $status_class   =   $object->is_sold ? "success" : "danger";
+                $status_text    =   $object->is_sold ? "مفعل" : "تفعيل؟";
+                $is_sold    =   '<div class="col-md-12">';
+                $is_sold  .=  '<div class="md-checkbox">';
+                $is_sold .= "<label class='btn btn-{$status_class}'  onclick='ch_st($object->id , `is_sold`)' id='is_sold_label_status_{$object->id}' for='checkbox33_{$object->id}'>";
+                $is_sold .= '<span class="inc"></span>';
+                $is_sold .= '<span class="check"></span>';
+                $is_sold .= '<span class="box"></span>'.$status_text;
+                $is_sold .= '</label>';
+                $is_sold .= '</div>';
+                $is_sold .= '</div>';
+                return $is_sold;
+            })
             ->addColumn('created_at', function ($object) {return date('Y-m-d',strtotime($object->created_at));})
             ->addColumn('edit_action', function ($object) {return '<a onclick="showModal('.$object->id.')" class="btn btn-info btn-social-icon"><i class="fa fa-edit"></i></a>';})
             ->addColumn('delete_action', function ($object) {return '<a onclick="deleteThis('.$object->id.')" id="'.$object->id.'" class="btn btn-danger btn-social-icon"><i class="fa fa-trash-o"></i></a>';})
-            ->rawColumns(['status', 'edit_action','delete_action'])->toJson();
+            ->rawColumns(['status', 'is_sold', 'edit_action', 'delete_action'])
+            ->toJson();
     }
+
 
     public function add(Request $request){
         $this->data = $request->all();
@@ -394,19 +402,25 @@ class ProductsController extends BackendController {
         }
     }
 
+
+    /**
+     * Change is_sold/status value
+     */
     public function change_status(Request $request){
         $id = $request->get('id');
         $object = $this->model->find($id);
-        if($object->status == 1){
-            $object->update(['status'=>0]);
-            $status = 'تفعيل؟';
+        if($request->query('type') == 'status')
+        {
+            $result = $object->status = !$object->status;
+            $object->save();
         }else{
-            $object->update(['status'=>1]);
-            $status = 'مفعل';
+            $result = $object->is_sold = !$object->is_sold;
+            $object->save();
         }
+        FacadesCache::forget('products');
         return response()->json([
             'success'=>TRUE,
-            'status' => $status
+            'status' => $result ? 'مفعل' : 'تفعيل؟'
         ]);
     }
 

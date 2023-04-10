@@ -124,6 +124,13 @@
                     <div class="col-lg-3 mb-4  col-md-6 wow fadeInDown" data-wow-delay="0.2s">
                         <a href="/car/{{ $product->id }}">
                             <div class="single-mainCar">
+                                @if ($product->is_sold == 1)
+                                    <div class="sold-out-label">
+                                        <p>SOLD OUT</p>
+                                    </div>
+                                    @else
+                                    {{ $product->is_sold }}
+                                @endif
                                 <div class="main-img py-2">
                                     <img src="{{ asset('/uploads/products/' . $product->image) }}" loading="lazy"
                                         alt="" class="img-fluid">
@@ -133,7 +140,7 @@
                                 </div>
                                 <div class="options d-flex align-items-center justify-content-start">
                                     <p class="mr-2">{{ $product->model->name }} | </p>
-                                    <p class="mr-2">{{ $product->category->name }} | </p>
+                                    <p class="mr-2">{{ @$product->category->name }} | </p>
                                     <p class="mr-2">
                                         @if ($product->is_new == 1)
                                             جديد

@@ -71,6 +71,30 @@
                 font-size: 12px;
             }
         }
+
+        .sold-out-label {
+            position: absolute;
+            top: -7px;
+            left: -28px;
+            transform: translate(-50%, -50%);
+            border: 1px solid red;
+            color: #fff;
+            text-align: center;
+            padding: 5px 10px;
+            font-weight: bold;
+            font-size: 12px;
+            border-radius: 5px;
+            width: 40% !important;
+            background: red;
+            transform: rotate(330deg);
+        }
+
+        .sold-out-label p {
+            margin: 0;
+            color: #fff;
+            letter-spacing: 10px !important;
+            text-align: center !important;
+        }
     </style>
     @stack('css')
 </head>

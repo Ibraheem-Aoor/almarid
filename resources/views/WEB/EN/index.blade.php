@@ -10,7 +10,6 @@
     /
 @endsection
 @push('css')
-
 @endpush
 
 @section('section')
@@ -199,6 +198,11 @@
                     <div class="col-lg-3 col-md-6 mb-3 wow fadeInDown" data-wow-delay="0.2s">
                         <a href="/en/car/{{ $product->id }}">
                             <div class="single-mainCar">
+                                @if ($product->is_sold)
+                                    <div class="sold-out-label">
+                                        <p>SOLD OUT</p>
+                                    </div>
+                                @endif
                                 <div class="main-img py-2">
                                     <img src="{{ asset('/uploads/products/' . $product->image) }}" alt=""
                                         class="img-fluid">
