@@ -167,9 +167,14 @@
                                             <div class="form-group form-md-line-input has-success">
                                                 <label class="col-md-2 control-label" for="price">الشكل</label>
                                                 <div class="col-md-10">
-                                                    <input type="text" class="form-control" name="body_style"
-                                                        value="{{ $object->body_style }}" id="name"
-                                                        placeholder="الشكل">
+                                                    <select name="body_style" class="form-control">
+                                                        <option value="">-----</option>
+                                                        @foreach ($data['categories'] as $category)
+                                                            <option value="{{ $category->id }}"
+                                                                @if ($object->body_style == $category->id) selected @endif>
+                                                                {{ $category->name }} </option>
+                                                        @endforeach
+                                                    </select>
                                                     <div class="form-control-focus">
                                                     </div>
                                                     <span class="help-block"></span>

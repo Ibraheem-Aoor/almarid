@@ -144,6 +144,9 @@ class IndexController extends WebController
             return $query->Where('brand_id' , $brand_id)
             ->orWhere('name','like','%'.Brand::query()->find($brand_id)->name.'%')
             ->orWhere('name_en','like','%'.Brand::query()->find($brand_id)->name.'%');
+        })
+        ->when($category_id,function($query,$category_id){
+            return $query->where('body_style','=',$category_id);
         });
     })
     ->orderBy('id', 'desc')
@@ -192,7 +195,7 @@ class IndexController extends WebController
       ->orderBy('id', 'desc')->get();
 
       $export_products = ExportProduct::query()
-      ->where(function ($s) use ($model_id , $brand_id) {
+      ->where(function ($s) use ($model_id , $brand_id , $category_id) {
         $s->when($model_id,function($query,$model_id){
             return $query->where('model','like','%'.Model::query()->find($model_id)->name.'%');
         });
@@ -200,12 +203,15 @@ class IndexController extends WebController
             return $query->Where('brand_id' , $brand_id)
             ->orWhere('name','like','%'.Brand::query()->find($brand_id)->name.'%')
             ->orWhere('name_en','like','%'.Brand::query()->find($brand_id)->name.'%');
+        })
+        ->when($category_id,function($query,$category_id){
+            return $query->where('body_style','=',$category_id);
         });
     })->where('is_web',1)->where('status', 1)
     ->orderBy('id', 'desc')->get();
 
 
-      return view('WEB.AR.cars')->with('products',$products)
+    return view('WEB.AR.cars')->with('products',$products)
                                 ->with('addresses',$this->addresses)
                                 ->with('export_products',$export_products)
                                 ->with('settings',$this->settings)

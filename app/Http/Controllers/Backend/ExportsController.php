@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\BackendController;
+use App\Models\Category;
 use App\Models\Export;
 use App\Models\ExportProduct;
 use Illuminate\Http\Request;
@@ -69,7 +70,7 @@ class ExportsController extends BackendController {
             }else{
                 return '--';
             }})
-            
+
             ->addColumn('created_at', function ($object) {return date('Y-m-d',strtotime($object->created_at));})
             ->addColumn('edit_action', function ($object) {return '<a onclick="showModal('.$object->id.')" class="btn btn-info btn-social-icon"><i class="fa fa-eye"></i></a>';})
            // ->addColumn('delete_action', function ($object) {return '<a onclick="deleteThis('.$object->id.')" id="'.$object->id.'" class="btn btn-danger btn-social-icon"><i class="fa fa-trash-o"></i></a>';})
@@ -104,7 +105,7 @@ class ExportsController extends BackendController {
             $status = 'تمت المشاهدة';
         }
 
-        
+
         return response()->json([
             'success'=>TRUE,
             'status' => $status

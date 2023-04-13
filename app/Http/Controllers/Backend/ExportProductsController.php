@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BackendController;
 use App\Models\Brand;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\ExportProduct;
 use App\Models\ExportProductService;
@@ -27,6 +28,7 @@ class ExportProductsController extends BackendController {
         $this->data['route'] = $this->route;
         $this->data['brands']   =   Brand::query()->select(['id' , 'name'])->get();
         $this->data['services'] = ExportService::get();
+        $this->data['categories']   =   Category::query()->select(['id' , 'name'])->whereType('car')->get();
         return view('backend/'.$this->view_folder.'/index')->with('data',$this->data);
     }
 
@@ -291,6 +293,7 @@ class ExportProductsController extends BackendController {
             $this->data['export_product_service'] = ExportProductService::where('export_product_id',$request->input('id'))->pluck('export_service_id')->toArray();
             $this->data['brands']   =   Brand::query()->select(['id' , 'name'])->get();
             $this->data['services'] = ExportService::get();
+            $this->data['categories']   =   Category::query()->select(['id' , 'name'])->whereType('car')->get();
             return response()->json([
                     'success' => TRUE,
                     'page' => view('backend/'.$this->view_folder.'/edit')
