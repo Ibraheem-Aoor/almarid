@@ -141,9 +141,7 @@ class IndexController extends WebController
             ->orWhere('name_en','like','%'.$name.'%');
         })
         ->when($brand_id,function($query,$brand_id){
-            return $query->Where('brand_id' , $brand_id)
-            ->orWhere('name','like','%'.Brand::query()->find($brand_id)->name.'%')
-            ->orWhere('name_en','like','%'.Brand::query()->find($brand_id)->name.'%');
+            return $query->Where('brand_id' , $brand_id);
         })
         ->when($category_id,function($query,$category_id){
             return $query->where('body_style','=',$category_id);
@@ -200,9 +198,7 @@ class IndexController extends WebController
             return $query->where('model','like','%'.Model::query()->find($model_id)->name.'%');
         });
         $s->when($brand_id,function($query,$brand_id){
-            return $query->Where('brand_id' , $brand_id)
-            ->orWhere('name','like','%'.Brand::query()->find($brand_id)->name.'%')
-            ->orWhere('name_en','like','%'.Brand::query()->find($brand_id)->name.'%');
+            return $query->Where('brand_id' , $brand_id);
         })
         ->when($category_id,function($query,$category_id){
             return $query->where('body_style','=',$category_id);
