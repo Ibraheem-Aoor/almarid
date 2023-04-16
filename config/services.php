@@ -30,4 +30,19 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'google_maps_headers'   => [
+        'token' =>  'application/json',
+        'Content-Type' =>  'application/json',
+    ],
+
+    'google_maps_api_key'       =>   'AIzaSyD1XGJ3i2rN51ZrRC86aI6eXTysdqCloZA',
+    'google_maps_api_client_id'       =>   '395581397389-20tiq988oktgit6jf964hutdev88jgdd.apps.googleusercontent.com',
+    'google_maps_host_url'       =>   'https://maps.googleapis.com/maps/api/',
+
+
+    'google_maps_places'       =>   [
+        'ChIJvyfHmO9mXz4RpMbTEyFKgJg'    ,
+        'ChIJ0dNUZLBYXz4RzeykcSFhS4c'    ,
+    ],
+
 ];

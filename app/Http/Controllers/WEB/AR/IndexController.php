@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\WEB\AR;
 
-
+use App\GoogleRating;
 use App\Http\Controllers\Controller as Controller;
 use App\Http\Controllers\WEB\WebController;
 use Illuminate\Http\Request;
@@ -49,10 +49,10 @@ class IndexController extends WebController
                         {
                                 return Methodology::where('status',1)->get();
                         });
-        $evaluations = Cache::rememberForever('evaluations' , function()
-                        {
-                            return Evaluation::where('status',1)->get();
-                        });
+        $google_reviews = Cache::rememberForever('google_reviews' , function()
+        {
+            return GoogleRating::query()->orderByDesc('created_at')->get();
+        });
         $products = $this->products->take(4);
         $offers =  $this->offers->take(4);
         $export_products = $this->export_products->take(4);
@@ -60,7 +60,6 @@ class IndexController extends WebController
                                    ->with('settings',$this->settings)
                                    ->with('features',$features)
                                    ->with('methodologies',$methodologies)
-                                   ->with('evaluations',$evaluations)
                                    ->with('brands',$this->brands)
                                    ->with('categories',$this->categories)
                                    ->with('offers',$offers)
@@ -72,6 +71,7 @@ class IndexController extends WebController
                                    ->with('fuels',$this->fuels)
                                    ->with('min_price',$this->min_price)
                                    ->with('max_price',$this->max_price)
+                                   ->with('google_reviews',$google_reviews)
                                    ->with('current_min_price',300000)
                                    ->with('current_max_price',600000);
     }

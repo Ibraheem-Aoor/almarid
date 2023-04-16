@@ -10,6 +10,12 @@
     /
 @endsection
 @push('css')
+    <style>
+        .owl-carousel .owl-item img {
+            display: block;
+            width: 70px !important;
+        }
+    </style>
 @endpush
 
 @section('section')
@@ -343,30 +349,20 @@
                 </div>
             </div>
             <div class="testi-cont owl-carousel owl_2 mt-5">
-                @foreach ($evaluations as $evaluation)
+                @foreach ($google_reviews as $review)
                     <div class="single-testi  ">
                         <div class="top-head-testi d-flex align-items-center justify-content-start">
                             <div class="name-rate">
-                                <h4>{{ $evaluation->name }}</h4>
+                                <h4><img style="width:40% !important;" src="{{ $review->profile_photo_url }}"
+                                        alt="">
+                                    {{ $review->author_name }}</h4>
                                 <span class="stars px-2 py-2" data-rating="4">
-                                    {{ $evaluation->country->name_en }}
+                                    {{ $review->relative_time_description }}
                                 </span>
                             </div>
                         </div>
                         <hr>
-                        <p>{{ $evaluation->message }}</p>
-                        @if (!is_null($evaluation->file))
-                            <div class="video ">
-
-                                <a href="{{ asset('/uploads/evaluations/' . $evaluation->file) }}"
-                                    data-rel="lightcase:myCollection"
-                                    class="d-flex align-items-center justify-content-start play-video">
-                                    <img src="{{ asset('/web/assets/images/video.png') }}" class="mr-3"
-                                        alt="">
-                                    View
-                                </a>
-                            </div>
-                        @endif
+                        <p>{{ $review->text }}</p>
                     </div>
                 @endforeach
             </div>
